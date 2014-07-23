@@ -77,6 +77,7 @@ function GetIP($type=0){
 
 /**
  * 获取服务器端真实IP
+ *
  * @return string
  */
 function get_server_ip(){
@@ -123,4 +124,53 @@ function endswith($string, $test) {
  */
 function getArrayValue(&$array, $key, $defaultValue = null) {
     return array_key_exists($key, $array) ? $array[$key] : $defaultValue;
+}
+
+/**
+ * 删除目录（即使目录不为空）
+ * 
+ * @param $path
+ * @return bool
+ */
+function deltree($path) {
+    if(empty($path))return false;
+    debugFile($path,'deltree.txt');
+    if (!is_dir($path)) {
+        if (is_file($path)) unlink($path);
+    } else {
+        $dh = opendir($path);
+        while($file = readdir($dh)) {
+            if ($file !='.' && $file!='..') {
+                deltree($path.$file);
+            }
+        }
+        closedir($dh);
+        rmdir($path);
+    }
+
+}
+
+
+/**
+ * 扫描目录
+ *
+ * @param $dir
+ * @return array
+ */
+function read_dir($dir) {
+    $ret = array('dirs'=>array(), 'files'=>array());
+    if ($handle = opendir($dir)) {
+        while (false !== ($file = readdir($handle))) {
+            if($file != '.' && $file !== '..') {
+                $cur_path = $dir . DIRECTORY_SEPARATOR . $file;
+                if(is_dir($cur_path)) {
+                    $ret['dirs'][$cur_path] = read_dir($cur_path);
+                } else {
+                    $ret['files'][] = $cur_path;
+                }
+            }
+        }
+        closedir($handle);
+    }
+    return $ret;
 }
