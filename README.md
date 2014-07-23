@@ -1,4 +1,3 @@
 Zebra-PHP-Framework
 ===================
-dddddddeee
-快捷PHP框架
+斑马PHP框架
