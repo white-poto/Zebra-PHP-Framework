@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Administrator
+ * User: Jenner
  * Date: 14-8-9
  * Time: 上午3:44
  */
@@ -20,13 +20,21 @@ class SystemVMessageQueue {
     //无法写入队列时，是否阻塞
     private $block_send;
 
-    //如果无法获取到一个消息，则不等待；如果设置位NULL，则会等待消息到来
+    //设置位MSG_IPC_NOWAIT，如果无法获取到一个消息，则不等待；如果设置位NULL，则会等待消息到来
     private $option_receive;
 
-    //希望接收到的最大消息
+    //希望接收到的最大消息大小
     private $maxsize;
 
-    public function __construct($ipc_filename, $msg_type, $serialize_needed, $block_send, $option_receive=MSG_IPC_NOWAIT, $maxsize=100000){
+    /**
+     * @param $ipc_filename IPC通信标志文件，用于获取唯一IPC KEY
+     * @param $msg_type 消息类型
+     * @param bool $serialize_needed 是否序列化
+     * @param bool $block_send 无法写入队列时，是否阻塞
+     * @param int $option_receive 设置位MSG_IPC_NOWAIT，如果无法获取到一个消息，则不等待；如果设置位NULL，则会等待消息到来
+     * @param int $maxsize 希望接收到的最大消息
+     */
+    public function __construct($ipc_filename, $msg_type, $serialize_needed=true, $block_send=false, $option_receive=MSG_IPC_NOWAIT, $maxsize=100000){
         $this->msg_type = $msg_type;
         $this->serialize_needed = $serialize_needed;
         $this->block_send = $block_send;
