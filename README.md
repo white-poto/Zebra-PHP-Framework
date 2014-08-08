@@ -10,4 +10,4 @@ Zebra-PHP-Framework 是一款轻量级的PHP开发框架，目前处于在开发
 + System V message queue 消息队列封装
 + 测试单元
 
-[博客地址:www.huyanping.cn](http://www.huyanping.cn/ "http://www.huyanping.cn")
+[博客地址:www.huyanping.cn](http://www.huyanping.cn/ "程序猿始终不够")
