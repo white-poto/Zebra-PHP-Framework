@@ -20,11 +20,11 @@ class Daemon
         $this->is_sington = $is_sington; //是否单例运行，单例运行会在tmp目录下建立一个唯一的PID
         $this->user = $user; //设置运行的用户 默认情况下nobody
         $this->output = $output; //设置输出的地方
-        $this->checkPcntl();
+        $this->check_pcntl();
     }
 
     //检查环境是否支持pcntl支持
-    public function checkPcntl()
+    public function check_pcntl()
     {
         if (!function_exists('pcntl_signal_dispatch')) {
             // PHP < 5.3 uses ticks to handle signals instead of pcntl_signal_dispatch
