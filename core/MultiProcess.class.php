@@ -9,10 +9,7 @@
 class MultiProcess {
 
 	//最大队列长度
-	private $size;
-
-    //当前生产者数量
-	private $curSize;
+	private $work_count;
 
 	//生产者
 	private $producer;
@@ -20,17 +17,14 @@ class MultiProcess {
 	//消费者
 	private $worker;
 
+    //消费者运行次数
+    private $runtime;
 
-	/**
-	 * 构造函数
-	 * @param string $worker 需要创建的线程类名
-	 * @param int $size 最大线程数量
-	 */
-	public function __construct($producer, $worker, $size=10){
-		$this->producer = new $producer;
+	public function __construct($producer, $worker, $work_count=10, $runtime=100){
+		$this->producer = $producer;
 		$this->worker = $worker;
-		$this->size = $size;
-		$this->curSize = 0;
+		$this->work_count = $work_count;
+        $this->runtime = $runtime;
 	}
 
 	public function start(){
@@ -39,32 +33,63 @@ class MultiProcess {
 		if ($producerPid == -1) {
 			die("could not fork");
 		} else if ($producerPid) {// parent
-			
+			$cur_size = 0;
 			while(true){
 				$pid = pcntl_fork();
 				if ($pid == -1) {
 					die("could not fork");
 				} else if ($pid) {// parent
-					
-					$this->curSize++;
-					if($this->curSize>=$this->size){
+
+                    $cur_size++;
+					if($cur_size>=$this->work_count){
 						$sunPid = pcntl_wait($status);
-						$this->curSize--;
+                        $cur_size--;
 					}
 					
 				} else {// worker
 				
-					$worker = new $this->worker;
+					$worker = new $this->worker($this->runtime);
 					$worker->run();
 					exit();
 				}
 			}
 				
 		} else {// producer
-			$this->producer->run();
-			exit();
+            while(true){
+                $producer = new $this->producer($this->runtime);
+                $producer->run();
+                unset($producer);
+            }
 		}
 	}
+}
+
+class BaseWorkerProducer{
+
+    //运行次数，用于避免内存溢出
+    private $runtime;
+
+    public function __construct($runtime=100){
+        $this->runtime = $runtime;
+    }
+
+    public function run(){
+        while($this->runtime!=0){
+            $this->go();
+            $this->runtime--;
+        }
+    }
+
+    //业务代码
+    protected function go(){}
+
+    public function get_queue($queue_id){
+
+    }
+
+    public function set_queue($queue_id){
+
+    }
 }
 
 

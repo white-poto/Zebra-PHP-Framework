@@ -7,7 +7,7 @@
  */
 
 define('ROOT', dirname(dirname(__FILE__)));
-require ROOT . 'Daemon.class.php';
+require ROOT . '/core/Daemon.class.php';
 
 $daemon = new Daemon(true, 'nobody', '/tmp/test.log');
 $daemon->daemonize();
