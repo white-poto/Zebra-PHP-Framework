@@ -1,9 +1,11 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: Jenner
+ * User: huyanping
  * Date: 14-8-9
  * Time: 上午3:44
+ *
+ * System V message queue IPC通信消息队列封装
  */
 
 class SystemVMessageQueue {
