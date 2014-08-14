@@ -83,11 +83,11 @@ class BaseWorkerProducer{
     //业务代码
     protected function go(){}
 
-    public function get_queue($queue_id){
+    public function get($queue_id){
 
     }
 
-    public function set_queue($queue_id){
+    public function set($queue_id){
 
     }
 }

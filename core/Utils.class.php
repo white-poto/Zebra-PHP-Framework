@@ -14,23 +14,23 @@
  *
  * @param $errno 错误代码
  * @param $errstr 错误信息
- * @param $errfile  发生错误的文件
- * @param $errline  发生错误的行数
+ * @param $errfile 发生错误的文件
+ * @param $errline 发生错误的行数
  * @param $errcontext
  */
-function errorHandler( $errno, $errstr, $errfile, $errline, $errcontext)
+function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
 {
-    $errorMessage = 'Into '.__FUNCTION__.'() at line '.__LINE__.
-        "---ERRNO---". print_r( $errno, true).
-        "---ERRSTR---". print_r( $errstr, true).
-        "---ERRFILE---". print_r( $errfile, true).
-        "---ERRLINE---". print_r( $errline, true).
-        "---ERRCONTEXT---".print_r( $errcontext, true).
-        "---Backtrace of errorHandler()---".print_r( debug_backtrace(), true);
+    $errorMessage = 'Into ' . __FUNCTION__ . '() at line ' . __LINE__ .
+        "---ERRNO---" . print_r($errno, true) .
+        "---ERRSTR---" . print_r($errstr, true) .
+        "---ERRFILE---" . print_r($errfile, true) .
+        "---ERRLINE---" . print_r($errline, true) .
+        "---ERRCONTEXT---" . print_r($errcontext, true) .
+        "---Backtrace of error_handler()---" . print_r(debug_backtrace(), true);
 
     $errorMessage = str_replace(array("\r\n", "\n"), '', $errorMessage);
     $log_file_name = ERROR_LOG_PATH . date("Ymd") . "-error.log";
-    file_put_contents( $log_file_name, $errorMessage . PHP_EOL, FILE_APPEND);
+    file_put_contents($log_file_name, $errorMessage . PHP_EOL, FILE_APPEND);
 }
 
 /**
@@ -39,7 +39,7 @@ function errorHandler( $errno, $errstr, $errfile, $errline, $errcontext)
  *
  * @return mixed
  */
-function array_orderby()
+function arrayOrderby()
 {
     $args = func_get_args();
     $data = array_shift($args);
@@ -51,7 +51,7 @@ function array_orderby()
             $args[$n] = $tmp;
         }
     }
-    $args[] = &$data;
+    $args[] = & $data;
     call_user_func_array('array_multisort', $args);
     return array_pop($args);
 }
@@ -63,15 +63,16 @@ function array_orderby()
  * @param int $type
  * @return string
  */
-function GetIP($type=0){
-    if(!empty($_SERVER["HTTP_CLIENT_IP"])) $cip = $_SERVER["HTTP_CLIENT_IP"];
-    else if(!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
-    else if(!empty($_SERVER["REMOTE_ADDR"])) $cip = $_SERVER["REMOTE_ADDR"];
+function getIp($type = 0)
+{
+    if (!empty($_SERVER["HTTP_CLIENT_IP"])) $cip = $_SERVER["HTTP_CLIENT_IP"];
+    else if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
+    else if (!empty($_SERVER["REMOTE_ADDR"])) $cip = $_SERVER["REMOTE_ADDR"];
     else $cip = "";
     preg_match("/[\d\.]{7,15}/", $cip, $cips);
     $cip = $cips[0] ? $cips[0] : 'unknown';
     unset($cips);
-    if ($type==1) $cip = myip2long($cip);
+    if ($type == 1) $cip = myip2long($cip);
     return $cip;
 }
 
@@ -80,21 +81,20 @@ function GetIP($type=0){
  *
  * @return string
  */
-function get_server_ip(){
+function getServerIp()
+{
     static $serverip = NULL;
 
-    if ($serverip !== NULL){
+    if ($serverip !== NULL) {
         return $serverip;
     }
-    if (isset($_SERVER)){
-        if (isset($_SERVER['SERVER_ADDR'])){
+    if (isset($_SERVER)) {
+        if (isset($_SERVER['SERVER_ADDR'])) {
             $serverip = $_SERVER['SERVER_ADDR'];
-        }
-        else{
+        } else {
             $serverip = '0.0.0.0';
         }
-    }
-    else{
+    } else {
         $serverip = getenv('SERVER_ADDR');
     }
     return $serverip;
@@ -107,7 +107,8 @@ function get_server_ip(){
  * @param $test
  * @return bool
  */
-function endswith($string, $test) {
+function endsWith($string, $test)
+{
     $strlen = strlen($string);
     $testlen = strlen($test);
     if ($testlen > $strlen) return false;
@@ -122,7 +123,8 @@ function endswith($string, $test) {
  * @param  $key string
  * @return mixed 返回值
  */
-function getArrayValue(&$array, $key, $defaultValue = null) {
+function getArrayValue(&$array, $key, $defaultValue = null)
+{
     return array_key_exists($key, $array) ? $array[$key] : $defaultValue;
 }
 
@@ -132,16 +134,17 @@ function getArrayValue(&$array, $key, $defaultValue = null) {
  * @param $path
  * @return bool
  */
-function deltree($path) {
-    if(empty($path))return false;
-    debugFile($path,'deltree.txt');
+function deleteTree($path)
+{
+    if (empty($path)) return false;
+    debugFile($path, 'deltree.txt');
     if (!is_dir($path)) {
         if (is_file($path)) unlink($path);
     } else {
         $dh = opendir($path);
-        while($file = readdir($dh)) {
-            if ($file !='.' && $file!='..') {
-                deltree($path.$file);
+        while ($file = readdir($dh)) {
+            if ($file != '.' && $file != '..') {
+                deltree($path . $file);
             }
         }
         closedir($dh);
@@ -157,13 +160,14 @@ function deltree($path) {
  * @param $dir
  * @return array
  */
-function read_dir($dir) {
-    $ret = array('dirs'=>array(), 'files'=>array());
+function readDir($dir)
+{
+    $ret = array('dirs' => array(), 'files' => array());
     if ($handle = opendir($dir)) {
         while (false !== ($file = readdir($handle))) {
-            if($file != '.' && $file !== '..') {
+            if ($file != '.' && $file !== '..') {
                 $cur_path = $dir . DIRECTORY_SEPARATOR . $file;
-                if(is_dir($cur_path)) {
+                if (is_dir($cur_path)) {
                     $ret['dirs'][$cur_path] = read_dir($cur_path);
                 } else {
                     $ret['files'][] = $cur_path;
@@ -184,29 +188,16 @@ function read_dir($dir) {
  */
 function getRealSize($size)
 {
-    $kb = 1024;         // Kilobyte
-    $mb = 1024 * $kb;   // Megabyte
-    $gb = 1024 * $mb;   // Gigabyte
-    $tb = 1024 * $gb;   // Terabyte
+    $kb = 1024; // Kilobyte
+    $mb = 1024 * $kb; // Megabyte
+    $gb = 1024 * $mb; // Gigabyte
+    $tb = 1024 * $gb; // Terabyte
 
-    if($size < $kb)
-    {
-        return $size." B";
-    }
-    else if($size < $mb)
-    {
-        return round($size/$kb,2)." KB";
-    }
-    else if($size < $gb)
-    {
-        return round($size/$mb,2)." MB";
-    }
-    else if($size < $tb)
-    {
-        return round($size/$gb,2)." GB";
-    }
-    else
-    {
-        return round($size/$tb,2)." TB";
-    }
+    if ($size < $kb) return $size . " B";
+    if ($size < $mb) return round($size / $kb, 2) . " KB";
+    if ($size < $gb) return round($size / $mb, 2) . " MB";
+    if ($size < $tb) return round($size / $gb, 2) . " GB";
+
+    return round($size / $tb, 2) . " TB";
+
 }

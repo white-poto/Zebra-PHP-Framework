@@ -46,7 +46,7 @@ class SystemVMessageQueue {
         $this->queue = msg_get_queue($key_t);
     }
 
-    public function get_queue(){
+    public function get(){
         $queue_status = $this->status_queue();
         if ($queue_status['msg_qnum']>0) {
             if (msg_receive($this->queue,$this->msg_type ,$msgtype_erhalten,$this->maxsize,$data,$this->serialize_needed, $this->option_receive, $err)===true) {
@@ -61,7 +61,7 @@ class SystemVMessageQueue {
      * @param $message
      * @throws Exception
      */
-    public function set_queue($message){
+    public function set($message){
         if(!msg_send($this->queue,$this->msg_type, $message,$this->serialize_needed, $this->block_send,$err)===true){
             throw new Exception($err);
         }
@@ -81,7 +81,7 @@ class SystemVMessageQueue {
      * msg_lspid	 The pid of the process that sent the last message to the queue. 最后发送消息的进程ID
      * msg_lrpid	 The pid of the process that received the last message from the queue. 最后接收消息的进程ID
      */
-    public function status_queue(){
+    public function status(){
         $queue_status = msg_stat_queue($this->queue);
         return $queue_status;
     }
