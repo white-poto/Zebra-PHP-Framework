@@ -1,0 +1,127 @@
+<?php
+/**
+ * Created by PhpStorm.
+ * User: huyanping
+ * Date: 14-8-19
+ * Time: 下午12:10
+ *
+ * 基于Redis的消息队列封装
+ */
+
+class RedisMessageQueue implements IMessageQueue {
+
+    private $redis_server;
+
+    private $server;
+
+    private $port;
+
+    /**
+     * @var 消息队列标志
+     */
+    private $key;
+
+    /**
+     * 构造队列，创建redis链接
+     * @param $server_config
+     * @param $key
+     * @param bool $p_connect
+     */
+    public function __construct($server_config, $key, $p_connect=false){
+        if(empty($key))
+            throw new Exception('message queue key can not be empty');
+
+        $this->server = $server_config['IP'];
+        $this->port = $server_config['PORT'];
+        $this->key = $key;
+
+        $this->check_environment();
+        if($p_connect){
+            $this->pconnect();
+        }else{
+            $this->connect();
+        }
+    }
+
+    /**
+     * 析构函数，关闭redis链接，使用长连接时，最好主动调用关闭
+     */
+    public function __destruct(){
+        $this->close();
+    }
+
+    /**
+     * 短连接
+     */
+    private function connect(){
+        $this->redis_server = new Redis();
+        $this->redis_server->connect($this->redis_server, $this->port);
+    }
+
+    /**
+     * 长连接
+     */
+    public function pconnect(){
+        $this->redis_server = new Redis();
+        $this->redis_server->pconnect($this->redis_server, $this->port);
+    }
+
+    /**
+     * 关闭链接
+     */
+    public function close(){
+        $this->redis_server->close();
+    }
+
+    /**
+     * 向队列插入一条信息
+     * @param $message
+     * @return mixed
+     */
+    public function put($message){
+        return $this->redis_server->lPush($this->key, $message);
+    }
+
+    /**
+     * 从队列顶部获取一条记录
+     * @return mixed
+     */
+    public function get(){
+        return $this->redis_server->lPop($this->key);
+    }
+
+    /**
+     * 选择数据库，可以用于区分不同队列
+     * @param $database
+     */
+    public function select($database){
+        $this->redis_server->select($database);
+    }
+
+    /**
+     * 获得队列状态，即目前队列中的消息数量
+     * @return mixed
+     */
+    public function status(){
+        return $this->redis_server->lSize();
+    }
+
+    /**
+     * 获取某一位置的值，不会删除该位置的值
+     * @param $pos
+     * @return mixed
+     */
+    public function view($pos){
+        return $this->redis_server->lGet($this->key, $pos);
+    }
+
+    /**
+     * 检查Redis扩展
+     * @throws Exception
+     */
+    private function check_environment(){
+        if (!extension_loaded('redis')) {
+            throw new Exception('Redis extension not loaded');
+        }
+    }
+} 

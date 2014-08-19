@@ -8,7 +8,7 @@
  * System V message queue IPC通信消息队列封装
  */
 
-class SystemVMessageQueue {
+class SystemVMessageQueue implements IMessageQueue {
 
     //消息分组类型，用于将一个消息队列中的信息进行分组
     private $msg_type;
@@ -61,7 +61,7 @@ class SystemVMessageQueue {
      * @param $message
      * @throws Exception
      */
-    public function set($message){
+    public function put($message){
         if(!msg_send($this->queue,$this->msg_type, $message,$this->serialize_needed, $this->block_send,$err)===true){
             throw new Exception($err);
         }
