@@ -55,7 +55,7 @@ class RedisMessageQueue implements IMessageQueue {
      */
     private function connect(){
         $this->redis_server = new Redis();
-        $this->redis_server->connect($this->redis_server, $this->port);
+        $this->redis_server->connect($this->server, $this->port);
     }
 
     /**
@@ -63,7 +63,7 @@ class RedisMessageQueue implements IMessageQueue {
      */
     public function pconnect(){
         $this->redis_server = new Redis();
-        $this->redis_server->pconnect($this->redis_server, $this->port);
+        $this->redis_server->pconnect($this->server, $this->port);
     }
 
     /**
@@ -102,8 +102,8 @@ class RedisMessageQueue implements IMessageQueue {
      * 获得队列状态，即目前队列中的消息数量
      * @return mixed
      */
-    public function status(){
-        return $this->redis_server->lSize();
+    public function size(){
+        return $this->redis_server->lSize($this->key);
     }
 
     /**

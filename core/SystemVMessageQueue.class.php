@@ -75,7 +75,7 @@ class SystemVMessageQueue implements IMessageQueue {
      * msg_stime	 The time that the last message was sent to the queue. 最后一次队列写入时间
      * msg_rtime	 The time that the last message was received from the queue.  最后一次队列接收时间
      * msg_ctime	 The time that the queue was last changed. 最后一次修改时间
-     * msg_qnum	 The number of messages waiting to be read from the queue. 当前等待被读取的数据
+     * msg_qnum	 The number of messages waiting to be read from the queue. 当前等待被读取的队列数量
      * msg_qbytes	 The maximum number of bytes allowed in one message queue.  一个消息队列中允许接收的最大消息总大小
      *               On Linux, this value may be read and modified via /proc/sys/kernel/msgmnb.
      * msg_lspid	 The pid of the process that sent the last message to the queue. 最后发送消息的进程ID
@@ -84,6 +84,11 @@ class SystemVMessageQueue implements IMessageQueue {
     public function status(){
         $queue_status = msg_stat_queue($this->queue);
         return $queue_status;
+    }
+
+    public function size(){
+        $status = $this->status();
+        return $status['msg_qnum'];
     }
 
 

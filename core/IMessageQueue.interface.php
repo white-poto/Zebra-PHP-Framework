@@ -9,5 +9,5 @@
 interface IMessageQueue {
     public function get();
     public function put($message);
-    public function status();
+    public function size();
 } 
