@@ -56,7 +56,7 @@ class SystemVMessageQueue implements IMessageQueue {
 
     public function get_ipc_key($ipc_filename, $msg_type){
         $key_t = ftok($ipc_filename, $msg_type);
-        if($key_t>=0) throw new Exception('ftok error');
+        if($key_t<=0) throw new Exception('ftok error');
 
         return $key_t;
     }
