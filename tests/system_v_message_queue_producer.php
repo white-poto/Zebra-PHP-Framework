@@ -12,10 +12,12 @@ require TEST_ROOT . '/../core/IMessageQueue.interface.php';
 require TEST_ROOT . '/../core/SystemVMessageQueue.class.php';
 
 try{
-    $messageQueue = new SystemVMessageQueue(1, __FILE__);
-    var_dump($messageQueue->put('test'));
-    var_dump($messageQueue->get());
-    var_dump($messageQueue->status());
+    $messageQueue = new SystemVMessageQueue(1, dirname(__FILE__));
+    while(true){
+        var_dump($messageQueue->put(mt_rand(0, 1000)));
+        echo $messageQueue->size() . PHP_EOL;
+        sleep(1);
+    }
 }catch(Exception $e){
     echo $e->getMessage();
 }
