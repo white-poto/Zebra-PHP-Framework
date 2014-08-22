@@ -28,6 +28,9 @@ class SystemVMessageQueue implements IMessageQueue {
     //希望接收到的最大消息大小
     private $maxsize;
 
+    //IPC通信KEY
+    private $key_t;
+
     /**
      * @param $ipc_filename IPC通信标志文件，用于获取唯一IPC KEY
      * @param $msg_type 消息类型
@@ -42,12 +45,24 @@ class SystemVMessageQueue implements IMessageQueue {
         $this->block_send = $block_send;
         $this->option_receive = $option_receive;
         $this->maxsize = $maxsize;
+        $this->init_queue($ipc_filename, $msg_type);
+    }
+
+    public function init_queue($ipc_filename, $msg_type){
+        $this->key_t = $this->get_ipc_key($ipc_filename, $msg_type);
+        $this->queue = msg_get_queue($this->key_t);
+        if(!$this->queue) throw new Exception('msg_get_queue failed');
+    }
+
+    public function get_ipc_key($ipc_filename, $msg_type){
         $key_t = ftok($ipc_filename, $msg_type);
-        $this->queue = msg_get_queue($key_t);
+        if($key_t>=0) throw new Exception('ftok error');
+
+        return $key_t;
     }
 
     public function get(){
-        $queue_status = $this->status_queue();
+        $queue_status = $this->status();
         if ($queue_status['msg_qnum']>0) {
             if (msg_receive($this->queue,$this->msg_type ,$msgtype_erhalten,$this->maxsize,$data,$this->serialize_needed, $this->option_receive, $err)===true) {
                 return $data;
@@ -107,5 +122,13 @@ class SystemVMessageQueue implements IMessageQueue {
         $queue_status = $this->status_queue();
         $queue_status[$key] = $value;
         return msg_set_queue($this->queue, $queue_status);
+    }
+
+    public function queue_remove(){
+        return msg_remove_queue($this->queue);
+    }
+
+    public function queue_exists($key){
+        return msg_queue_exists($key);
     }
 } 
