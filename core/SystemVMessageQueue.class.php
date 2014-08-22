@@ -36,7 +36,7 @@ class SystemVMessageQueue implements IMessageQueue {
      * @param int $option_receive 设置位MSG_IPC_NOWAIT，如果无法获取到一个消息，则不等待；如果设置位NULL，则会等待消息到来
      * @param int $maxsize 希望接收到的最大消息
      */
-    public function __construct($ipc_filename, $msg_type, $serialize_needed=true, $block_send=false, $option_receive=MSG_IPC_NOWAIT, $maxsize=100000){
+    public function __construct($msg_type, $ipc_filename=__FILE__, $serialize_needed=true, $block_send=false, $option_receive=MSG_IPC_NOWAIT, $maxsize=100000){
         $this->msg_type = $msg_type;
         $this->serialize_needed = $serialize_needed;
         $this->block_send = $block_send;
@@ -54,6 +54,8 @@ class SystemVMessageQueue implements IMessageQueue {
             } else {
                 throw new Exception($err);
             }
+        }else{
+            return false;
         }
     }
 
@@ -65,6 +67,8 @@ class SystemVMessageQueue implements IMessageQueue {
         if(!msg_send($this->queue,$this->msg_type, $message,$this->serialize_needed, $this->block_send,$err)===true){
             throw new Exception($err);
         }
+
+        return true;
     }
 
     /*

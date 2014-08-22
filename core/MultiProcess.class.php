@@ -17,15 +17,35 @@ class MultiProcess {
 	//消费者
 	private $worker;
 
+    private $recover;
+
     //消费者运行次数
     private $runtime;
 
-	public function __construct($producer, $worker, $work_count=10, $runtime=100){
+	public function __construct($producer, $worker, $recover, $work_count=10, $runtime=100){
 		$this->producer = $producer;
 		$this->worker = $worker;
+        $this->recover = $recover;
 		$this->work_count = $work_count;
         $this->runtime = $runtime;
 	}
+
+    private function __get($property_name)
+    {
+        if(isset($this->$property_name))
+        {
+            return($this->$property_name);
+        }
+        else
+        {
+            return(NULL);
+        }
+    }
+
+    private function __set($property_name, $value)
+    {
+        $this->$property_name = $value;
+    }
 
 	public function start(){
 
@@ -64,7 +84,7 @@ class MultiProcess {
 	}
 }
 
-class BaseWorkerProducer{
+class BaseWorkman{
 
     //运行次数，用于避免内存溢出
     private $runtime;
@@ -83,13 +103,6 @@ class BaseWorkerProducer{
     //业务代码
     protected function go(){}
 
-    public function get($queue_id){
-
-    }
-
-    public function set($queue_id){
-
-    }
 }
 
 
