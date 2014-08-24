@@ -6,20 +6,20 @@
  * Time: 下午3:15
  */
 
-define('CUR_DIR', dirname(__FILE__));
+define('CUR_DIR', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'core');
 require CUR_DIR . '/' . 'IMessageQueue.interface.php';
 require CUR_DIR . '/' . 'RedisMessageQueue.class.php';
 
 $server_config = array(
     'IP' => '127.0.0.1',
-    'PORT' => '6395',
+    'PORT' => '6379',
 );
 
 try{
     $queue = new RedisMessageQueue($server_config, 'test');
     $result = $queue->put('++++++++++++++++');
     var_dump($result);
-    $size = $queue->status();
+    $size = $queue->size();
     var_dump($size);
     $message = $queue->get();
     var_dump($message);
