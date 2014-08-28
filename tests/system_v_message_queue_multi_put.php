@@ -10,35 +10,37 @@ require_once '../Zebra.php';
 
 $manager = new ProcessManager();
 
-for($i=0; $i<100; $i++){
+for ($i = 0; $i < 100; $i++) {
     $manager->fork(new Process('put_message', "My super cool process"));
     echo $i . PHP_EOL;
 }
 
 
-do
-{
-    foreach($manager->getChildren() as $process)
-    {
+do {
+    foreach ($manager->getChildren() as $process) {
         $iid = $process->getInternalId();
-        if($process->isAlive())
-        {
+        if ($process->isAlive()) {
             echo sprintf('Process %s is running', $iid);
-        } else if($process->isFinished()) {
+        } else if ($process->isFinished()) {
             echo sprintf('Process %s is finished', $iid);
         }
         echo "\n";
     }
     sleep(1);
-} while($manager->countAliveChildren());
+} while ($manager->countAliveChildren());
 
 echo time() . PHP_EOL;
 
 
-function put_message(){
+function put_message()
+{
     sleep(3);
-    $messageQueue = new SystemVMessageQueue(1, __FILE__);
-    while(true){
-        $messageQueue->put(mt_rand(0, 10000) . getmypid());
+    try {
+        $messageQueue = new SystemVMessageQueue(1, __FILE__);
+        while (true) {
+            $messageQueue->put(mt_rand(0, 10000) . getmypid());
+        }
+    } catch (Exception $e) {
+        echo $e->getMessage();
     }
 }
