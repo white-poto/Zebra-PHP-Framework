@@ -37,7 +37,7 @@ echo time() . PHP_EOL;
 
 function put_message(){
     sleep(3);
-    $messageQueue = new SystemVMessageQueue('a', __FILE__);
+    $messageQueue = new SystemVMessageQueue(1, __FILE__);
     while(true){
         $messageQueue->put(mt_rand(0, 10000) . getmypid());
     }
