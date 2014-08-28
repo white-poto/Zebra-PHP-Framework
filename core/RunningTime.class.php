@@ -35,7 +35,7 @@ class RunningTime {
             }
             $pre_time = $time;
         }
-        
+
         return $report;
     }
 
