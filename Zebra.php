@@ -4,6 +4,8 @@
  * User: huyanping
  * Date: 14-8-28
  * Time: 下午8:04
+ *
+ * 斑马框架入口文件
  */
 
 define('ROOT', dirname(__FILE__));
