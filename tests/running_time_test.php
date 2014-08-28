@@ -11,5 +11,6 @@ require_once '../Zebra.php';
 $runningTime = new RunningTime();
 $runningTime->begin();
 sleep(10);
+$runningTime->mark('test');
 $runningTime->end();
 echo $runningTime->getReport();

@@ -11,11 +11,11 @@ class RunningTime {
     private $times;
 
     public function begin(){
-        $this->times['begin'] = $this->getCurrentTime();
+        $this->times['begin_time'] = $this->getCurrentTime();
     }
 
     public function end(){
-        $this->times['end'] = $this->getCurrentTime();
+        $this->times['end_time'] = $this->getCurrentTime();
     }
 
     public function mark($key){
