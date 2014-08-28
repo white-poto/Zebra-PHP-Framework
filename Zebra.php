@@ -12,7 +12,7 @@ define('DS', DIRECTORY_SEPARATOR);
 function __autoload($class_name) {
     $class_file = ROOT . DS . 'core' . DS . $class_name . '.class.php';
     echo $class_file . PHP_EOL;
-    if(file_exists($class_name)){
+    if(file_exists($class_file)){
         require_once $class_file;
         return true;
     }
