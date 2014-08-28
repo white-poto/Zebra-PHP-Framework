@@ -107,7 +107,7 @@ class SystemVMessageQueue implements IMessageQueue
         if (!msg_send($this->queue, $this->msg_type, $message, $this->serialize_needed, $this->block_send, $err) === true) {
             throw new Exception($err);
         }
-
+	
         return true;
     }
 
