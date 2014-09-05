@@ -6,6 +6,7 @@
  * Time: 下午8:30
  *
  */
+namespace Zebra\Daemon;
 
 class Daemon
 {
@@ -16,7 +17,6 @@ class Daemon
 
     public function __construct($is_sington = false, $user = 'nobody', $output = "/dev/null")
     {
-
         $this->is_sington = $is_sington; //是否单例运行，单例运行会在tmp目录下建立一个唯一的PID
         $this->user = $user; //设置运行的用户 默认情况下nobody
         $this->output = $output; //设置输出的地方

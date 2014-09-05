@@ -9,6 +9,7 @@
  * $func = Func::fromObjectMethod($myArrayObject, "offsetGet");
  * echo $func(3);
  */
+namespace Zebra\Utils;
 
 class Func {
 

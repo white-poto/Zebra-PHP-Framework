@@ -5,6 +5,7 @@
  * Date: 14-8-14
  * Time: 下午11:05
  */
+namespace Zebra\NetWork;
 
 class Http {
 

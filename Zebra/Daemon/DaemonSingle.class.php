@@ -11,6 +11,7 @@
  * $single->single();
  *
  */
+namespace Zebra\Daemon;
 
 class DaemonSingle {
 

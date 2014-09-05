@@ -18,6 +18,8 @@
  * @param $errline 发生错误的行数
  * @param $errcontext
  */
+namespace Zebra\Utils;
+
 function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
 {
     $errorMessage = 'Into ' . __FUNCTION__ . '() at line ' . __LINE__ .

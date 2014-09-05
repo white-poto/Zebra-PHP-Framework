@@ -8,6 +8,8 @@ Maintained by Alexander Makarov, http://rmcreative.ru/
 $Id$
 */
 
+namespace Zebra\NetWork;
+
 /**
  * Class that represent a single curl request
  */

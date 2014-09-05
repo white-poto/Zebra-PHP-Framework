@@ -15,6 +15,7 @@
  * echo $runningTime->getReport();
  *
  */
+namespace Zebra\Utils;
 
 class RunningTime {
 

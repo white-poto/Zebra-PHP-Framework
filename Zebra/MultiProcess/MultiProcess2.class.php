@@ -5,6 +5,7 @@
  * Date: 14-8-19
  * Time: 下午7:23
  */
+namespace Zebra\MultiProcess;
 
 class MultiProcess2
 {

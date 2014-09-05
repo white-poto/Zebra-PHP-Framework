@@ -8,6 +8,7 @@
  * System V message queue IPC通信消息队列封装
  * 如果你想修改一个队列最大能够存储的字节数，请确认你的脚本具有root权限
  */
+namespace Zebra\MessageQueue;
 
 class SystemVMessageQueue implements IMessageQueue
 {

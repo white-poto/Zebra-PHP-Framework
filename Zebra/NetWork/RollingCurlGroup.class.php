@@ -6,6 +6,7 @@
 
 $Id$
 */
+namespace Zebra\NetWork;
 
 class RollingCurlGroupException extends Exception {}
 

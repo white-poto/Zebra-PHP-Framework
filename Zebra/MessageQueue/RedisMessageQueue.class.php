@@ -7,6 +7,7 @@
  *
  * 基于Redis的消息队列封装
  */
+namespace Zebra\MessageQueue;
 
 class RedisMessageQueue implements IMessageQueue
 {

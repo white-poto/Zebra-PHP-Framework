@@ -6,6 +6,7 @@
  * Time: 下午14:28
  *
  */
+namespace Zebra\MultiProcess;
 
 class Process
 {

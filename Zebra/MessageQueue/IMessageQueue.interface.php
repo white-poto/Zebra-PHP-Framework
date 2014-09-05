@@ -5,6 +5,7 @@
  * Date: 14-8-19
  * Time: 下午12:12
  */
+namespace Zebra\MessageQueue;
 
 interface IMessageQueue {
     public function get();

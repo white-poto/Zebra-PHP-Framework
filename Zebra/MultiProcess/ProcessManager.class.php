@@ -7,7 +7,9 @@
  *
  */
 
+namespace Zebra\MultiProcess;
 declare(ticks = 1);
+
 class ProcessManager
 {
 
