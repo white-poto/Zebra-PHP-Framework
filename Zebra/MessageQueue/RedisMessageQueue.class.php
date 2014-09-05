@@ -32,7 +32,7 @@ class RedisMessageQueue implements IMessageQueue
     public function __construct($server_config = array('IP' => '127.0.0.1', 'PORT' => '6379'), $key = 'redis_message_queue', $p_connect = false)
     {
         if (empty($key))
-            throw new Exception('message queue key can not be empty');
+            throw new \Exception('message queue key can not be empty');
 
         $this->server = $server_config['IP'];
         $this->port = $server_config['PORT'];
@@ -59,7 +59,7 @@ class RedisMessageQueue implements IMessageQueue
      */
     private function connect()
     {
-        $this->redis_server = new Redis();
+        $this->redis_server = new \Redis();
         $this->redis_server->connect($this->server, $this->port);
     }
 
@@ -68,7 +68,7 @@ class RedisMessageQueue implements IMessageQueue
      */
     public function pconnect()
     {
-        $this->redis_server = new Redis();
+        $this->redis_server = new \Redis();
         $this->redis_server->pconnect($this->server, $this->port);
     }
 
