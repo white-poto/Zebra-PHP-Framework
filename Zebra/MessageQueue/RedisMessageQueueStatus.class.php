@@ -64,6 +64,7 @@ class RedisMessageQueueStatus extends RedisMessageQueue {
         $status = $this->status();
         $message  = 'Redis Message Queue' . PHP_EOL;
         $message .= '-------------------' . PHP_EOL;
+        $message .= 'Message queue name:' . $status['queue_name'] . PHP_EOL;
         $message .= 'Put position of queue:' . $status['put_position'] . PHP_EOL;
         $message .= 'Get position of queue:' . $status['get_position'] . PHP_EOL;
         $message .= 'Number of unread queue:' . $status['unread_queue'] . PHP_EOL;
