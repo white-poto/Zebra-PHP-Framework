@@ -12,12 +12,12 @@ define('ROOT', dirname(__FILE__));
 define('DS', DIRECTORY_SEPARATOR);
 
 function __autoload($class_name) {
-    $class_file = ROOT . \str_replace('\\', DS, $class_name) . '.class.php';
+    $class_file = ROOT . DS . \str_replace('\\', DS, $class_name) . '.class.php';
     if(file_exists($class_file)){
         require_once $class_file;
         return true;
     }
-    $interface_file = ROOT . \str_replace('\\', DS, $class_name) . '.interface.php';
+    $interface_file = ROOT . DS . \str_replace('\\', DS, $class_name) . '.interface.php';
     if(file_exists($interface_file)){
         require_once $interface_file;
         return true;
