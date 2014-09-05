@@ -61,8 +61,8 @@ class SystemVMessageQueue implements IMessageQueue
     public function init_queue($ipc_filename, $msg_type)
     {
         $this->key_t = $this->get_ipc_key($ipc_filename, $msg_type);
-        $this->queue = msg_get_queue($this->key_t);
-        if (!$this->queue) throw new Exception('msg_get_queue failed');
+        $this->queue = \msg_get_queue($this->key_t);
+        if (!$this->queue) throw new \Exception('msg_get_queue failed');
     }
 
     /**
@@ -73,8 +73,8 @@ class SystemVMessageQueue implements IMessageQueue
      */
     public function get_ipc_key($ipc_filename, $msg_type)
     {
-        $key_t = ftok($ipc_filename, $msg_type);
-        if ($key_t == 0) throw new Exception('ftok error');
+        $key_t = \ftok($ipc_filename, $msg_type);
+        if ($key_t == 0) throw new \Exception('ftok error');
 
         return $key_t;
     }
@@ -88,10 +88,10 @@ class SystemVMessageQueue implements IMessageQueue
     {
         $queue_status = $this->status();
         if ($queue_status['msg_qnum'] > 0) {
-            if (msg_receive($this->queue, $this->msg_type, $msgtype_erhalten, $this->maxsize, $data, $this->serialize_needed, $this->option_receive, $err) === true) {
+            if (\msg_receive($this->queue, $this->msg_type, $msgtype_erhalten, $this->maxsize, $data, $this->serialize_needed, $this->option_receive, $err) === true) {
                 return $data;
             } else {
-                throw new Exception($err);
+                throw new \Exception($err);
             }
         } else {
             return false;
@@ -105,8 +105,8 @@ class SystemVMessageQueue implements IMessageQueue
      */
     public function put($message)
     {
-        if (!msg_send($this->queue, $this->msg_type, $message, $this->serialize_needed, $this->block_send, $err) === true) {
-            throw new Exception($err);
+        if (!\msg_send($this->queue, $this->msg_type, $message, $this->serialize_needed, $this->block_send, $err) === true) {
+            throw new \Exception($err);
         }
 	
         return true;
@@ -130,7 +130,7 @@ class SystemVMessageQueue implements IMessageQueue
      */
     public function status()
     {
-        $queue_status = msg_stat_queue($this->queue);
+        $queue_status = \msg_stat_queue($this->queue);
         return $queue_status;
     }
 
@@ -162,7 +162,7 @@ class SystemVMessageQueue implements IMessageQueue
             return $this->set_max_queue_size($value);
 
         $queue_status[$key] = $value;
-        return msg_set_queue($this->queue, $queue_status);
+        return \msg_set_queue($this->queue, $queue_status);
     }
 
     /**
@@ -171,7 +171,7 @@ class SystemVMessageQueue implements IMessageQueue
      */
     public function queue_remove()
     {
-        return msg_remove_queue($this->queue);
+        return \msg_remove_queue($this->queue);
     }
 
     //修改队列能容纳的最大字节数，需要root权限
@@ -182,9 +182,9 @@ class SystemVMessageQueue implements IMessageQueue
      */
     public function set_max_queue_size($size)
     {
-        $user = get_current_user();
+        $user = \get_current_user();
         if ($user !== 'root')
-            throw new Exception('changing msg_qbytes needs root privileges');
+            throw new \Exception('changing msg_qbytes needs root privileges');
 
         return $this->set_status('msg_qbytes', $size);
     }
@@ -196,7 +196,7 @@ class SystemVMessageQueue implements IMessageQueue
      */
     public function queue_exists($key)
     {
-        return msg_queue_exists($key);
+        return \msg_queue_exists($key);
     }
 
     /**
@@ -207,8 +207,8 @@ class SystemVMessageQueue implements IMessageQueue
     private function check_set_privilege($key)
     {
         $privilege_field = array('msg_perm.uid', 'msg_perm.gid', 'msg_perm.mode');
-        if (!in_array($key, $privilege_field)) {
-            throw new Exception('you can only change msg_perm.uid, msg_perm.gid, msg_perm.mode and msg_qbytes. And msg_qbytes needs root privileges');
+        if (!\in_array($key, $privilege_field)) {
+            throw new \Exception('you can only change msg_perm.uid, msg_perm.gid, msg_perm.mode and msg_qbytes. And msg_qbytes needs root privileges');
         }
     }
 } 

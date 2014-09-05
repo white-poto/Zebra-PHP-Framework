@@ -75,30 +75,30 @@ class Http {
 
         //组合带参数的URL
         $url = $this->url;
-        if(empty($url)) throw Exception('url can not be empty!');
-        if ($params && is_array($params)) {
+        if(empty($url)) throw \Exception('url can not be empty!');
+        if ($params && \is_array($params)) {
             $url .= '?';
             $amp = '';
             foreach ($params as $paramKey => $paramValue) {
-                $url .= $amp . $paramKey . '=' . urlencode($paramValue);
+                $url .= $amp . $paramKey . '=' . \urlencode($paramValue);
                 $amp = '&';
             }
         }
 
         //初始化curl
-        $curl = curl_init();
+        $curl = \curl_init();
         if ($this->proxy_ip && $this->proxy_port) {
             $proxy = "http://{$this->proxy_ip}:{$this->proxy_port}";
-            curl_setopt($curl, CURLOPT_PROXY, $proxy);
+            \curl_setopt($curl, CURLOPT_PROXY, $proxy);
         }
-        curl_setopt($curl, CURLOPT_URL, $url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->time_out);
-        curl_setopt($curl, CURLOPT_TIMEOUT, $this->transfer_time_out);
+        \curl_setopt($curl, CURLOPT_URL, $url);
+        \curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        \curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        \curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->time_out);
+        \curl_setopt($curl, CURLOPT_TIMEOUT, $this->transfer_time_out);
 
-        $content = curl_exec($curl);
-        curl_close($curl);
+        $content = \curl_exec($curl);
+        \curl_close($curl);
 
         return $content;
 
@@ -114,35 +114,35 @@ class Http {
     public function POST($params = null, $file_upload = false) {
 
         //初始化curl
-        $curl = curl_init();
+        $curl = \curl_init();
         if ($this->proxy_ip && $this->proxy_port) {
             $proxy = "http://{$this->proxy_ip}:{$this->proxy_port}";
-            curl_setopt($curl, CURLOPT_PROXY, $proxy);
+            \curl_setopt($curl, CURLOPT_PROXY, $proxy);
         }
-        curl_setopt($curl, CURLOPT_URL, $this->url);
-        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->time_out);
-        curl_setopt($curl, CURLOPT_TIMEOUT, $this->transfer_time_out);
+        \curl_setopt($curl, CURLOPT_URL, $this->url);
+        \curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        \curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
+        \curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, $this->time_out);
+        \curl_setopt($curl, CURLOPT_TIMEOUT, $this->transfer_time_out);
 
         //设置POST参数
-        curl_setopt($curl, CURLOPT_POST, 1);
-        if ($params && is_array($params)) {
+        \curl_setopt($curl, CURLOPT_POST, 1);
+        if ($params && \is_array($params)) {
             if ($file_upload) {
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
+                \curl_setopt($curl, CURLOPT_POSTFIELDS, $params);
             } else {
                 $amp = '';
                 $postFields = '';
                 foreach ($params as $paramKey => $paramValue) {
-                    $postFields .= $amp . $paramKey . '=' . urlencode($paramValue);
+                    $postFields .= $amp . $paramKey . '=' . \urlencode($paramValue);
                     $amp = '&';
                 }
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
+                \curl_setopt($curl, CURLOPT_POSTFIELDS, $postFields);
             }
         }
 
-        $content = curl_exec($curl);
-        curl_close($curl);
+        $content = \curl_exec($curl);
+        \curl_close($curl);
 
         return $content;
 

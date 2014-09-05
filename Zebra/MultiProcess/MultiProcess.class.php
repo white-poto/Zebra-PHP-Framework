@@ -50,20 +50,20 @@ class MultiProcess
     public function start()
     {
 
-        $producerPid = pcntl_fork();
+        $producerPid = \pcntl_fork();
         if ($producerPid == -1) {
             die("could not fork");
         } else if ($producerPid) { // parent
             $cur_size = 0;
             while (true) {
-                $pid = pcntl_fork();
+                $pid = \pcntl_fork();
                 if ($pid == -1) {
                     die("could not fork");
                 } else if ($pid) { // parent
 
                     $cur_size++;
                     if ($cur_size >= $this->work_count) {
-                        $sunPid = pcntl_wait($status);
+                        $sunPid = \pcntl_wait($status);
                         $cur_size--;
                     }
 

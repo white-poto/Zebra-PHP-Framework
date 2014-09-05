@@ -10,6 +10,8 @@
 namespace Zebra\MultiProcess;
 declare(ticks = 1);
 
+class RuntimeException extends \Exception{}
+
 class ProcessManager
 {
 
@@ -43,14 +45,14 @@ class ProcessManager
         if(!$this->cleanupOnShutdown)
         {
             $this->cleanupOnShutdown = true;
-            register_shutdown_function(array($this, 'cleanup'));
+            \register_shutdown_function(array($this, 'cleanup'));
         }
     }
 
     protected function setup()
     {
-        pcntl_signal(SIGCHLD, function($signal) {
-            while(($pId = pcntl_waitpid(-1, $status, WNOHANG)) > 0 )
+        \pcntl_signal(SIGCHLD, function($signal) {
+            while(($pId = \pcntl_waitpid(-1, $status, WNOHANG)) > 0 )
             {
                 $this->getChildByPID($pId)->setFinished(true, $status);
             }
@@ -68,11 +70,11 @@ class ProcessManager
     {
         if($this->allocateSHMPerChildren())
         {
-            $children->setSHMSegment(new SHMCache(uniqid('process_manager;shm_per_children'.$children->getInternalId()), $this->allocateSHMPerChildren));
+            $children->setSHMSegment(new \Zebra\Ipcs\SHMCache(\uniqid('process_manager;shm_per_children'.$children->getInternalId()), $this->allocateSHMPerChildren));
         }
 
-        pcntl_sigprocmask(SIG_BLOCK, array(SIGCHLD));
-        $pid = pcntl_fork();
+        \pcntl_sigprocmask(SIG_BLOCK, array(SIGCHLD));
+        $pid = \pcntl_fork();
         // Error
         if($pid == -1)
         {
@@ -95,7 +97,7 @@ class ProcessManager
 
             // Store the children's PID
             $children->setPid($pid);
-            pcntl_sigprocmask(SIG_UNBLOCK, array(SIGCHLD));
+            \pcntl_sigprocmask(SIG_UNBLOCK, array(SIGCHLD));
         }
     }
 

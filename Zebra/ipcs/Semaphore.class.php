@@ -21,7 +21,7 @@ class Semaphore
  
     private function __construct($key)
     {
-        if ( ($this->lockId = sem_get($this->_stringToSemKey($key))) === FALSE)
+        if ( ($this->lockId = \sem_get($this->_stringToSemKey($key))) === FALSE)
         {
             throw new \Exception('Cannot create semaphore for key: ' . $key);
         }
@@ -35,7 +35,7 @@ class Semaphore
  
     public function acquire()
     {
-        if (!sem_acquire($this->lockId))
+        if (!\sem_acquire($this->lockId))
         {
             throw new \Exception('Cannot acquire semaphore: ' . $this->lockId);
         }
@@ -46,7 +46,7 @@ class Semaphore
     {
         if ($this->locked)
         {
-            if (!sem_release($this->lockId))
+            if (!\sem_release($this->lockId))
             {
                 throw new \Exception('Cannot release semaphore: ' . $this->lockId);
             }
@@ -57,11 +57,11 @@ class Semaphore
     // Semaphore requires a numeric value as the key
     protected function _stringToSemKey($identifier)
     {
-        $md5 = md5($identifier);
+        $md5 = \md5($identifier);
         $key = 0;
         for ($i = 0; $i < 32; $i++)
         { 
-            $key += ord($md5{$i}) * $i;
+            $key += \ord($md5{$i}) * $i;
         }
         return $key;
     }

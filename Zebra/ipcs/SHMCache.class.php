@@ -21,12 +21,12 @@ class SHMCache
         if(!$memSize) {
             $memSize = 1000;
         }
-        if(array_key_exists($ns, self::$nsKeyCache))
+        if(\array_key_exists($ns, self::$nsKeyCache))
         {
             $this->shmId = self::$nsKeyCache[$ns];
         } else {
-            $tmp = tempnam('/tmp', $this->forgeKey($ns));
-            self::$nsKeyCache[$ns] = $this->shmId = shm_attach(ftok($tmp, 'a'), $memSize);
+            $tmp = \tempnam('/tmp', $this->forgeKey($ns));
+            self::$nsKeyCache[$ns] = $this->shmId = \shm_attach(\ftok($tmp, 'a'), $memSize);
         }
     }
 
@@ -34,18 +34,18 @@ class SHMCache
     {
         if(empty($this->keyCache[$str]))
         {
-            $hex_str = md5($str);
+            $hex_str = \md5($str);
 
-            $arr = str_split($hex_str, 4);
+            $arr = \str_split($hex_str, 4);
             foreach ($arr as $grp) {
-                $dec[] = str_pad(hexdec($grp), 5, '0', STR_PAD_LEFT);
+                $dec[] = \str_pad(\hexdec($grp), 5, '0', STR_PAD_LEFT);
             }
-            $numeric = trim(implode('', $dec), '0');
+            $numeric = \trim(\implode('', $dec), '0');
             while($numeric >= PHP_INT_MAX)
             {
-                $numeric = bcdiv($numeric, 2, 0);
+                $numeric = \bcdiv($numeric, 2, 0);
             }
-            $this->keyCache[$str] = (int)(substr($numeric, 0, 7));
+            $this->keyCache[$str] = (int)(\substr($numeric, 0, 7));
         }
         return $this->keyCache[$str];
     }
@@ -60,7 +60,7 @@ class SHMCache
     {
         if($this->contains($id))
         {
-            return shm_get_var($this->shmId, $this->forgeKey($id));
+            return \shm_get_var($this->shmId, $this->forgeKey($id));
         }
         return false;
     }
@@ -73,7 +73,7 @@ class SHMCache
      */
     public function contains($id)
     {
-        return shm_has_var($this->shmId, $this->forgeKey($id));
+        return \shm_has_var($this->shmId, $this->forgeKey($id));
     }
 
     /**
@@ -86,7 +86,7 @@ class SHMCache
      */
     public function save($id, $data, $lifeTime = 0)
     {
-        return shm_put_var($this->shmId, $this->forgeKey($id), $data);
+        return \shm_put_var($this->shmId, $this->forgeKey($id), $data);
     }
 
     /**
@@ -97,12 +97,12 @@ class SHMCache
      */
     public function delete($id)
     {
-        return shm_remove_var($this->shmId, $this->forgeKey($id));
+        return \shm_remove_var($this->shmId, $this->forgeKey($id));
     }
 
     public function destroy()
     {
-        shm_remove($this->shmId);
+        \shm_remove($this->shmId);
     }
 
 }
