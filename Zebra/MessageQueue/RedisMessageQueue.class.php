@@ -133,8 +133,8 @@ class RedisMessageQueue implements IMessageQueue
      */
     protected function check_environment()
     {
-        if (!extension_loaded('redis')) {
-            throw new Exception('Redis extension not loaded');
+        if (!\extension_loaded('redis')) {
+            throw new \Exception('Redis extension not loaded');
         }
     }
 } 

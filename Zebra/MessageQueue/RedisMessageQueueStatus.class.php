@@ -27,14 +27,14 @@ class RedisMessageQueueStatus extends RedisMessageQueue {
     ){
         parent::__construct($server_config, $key, $p_connect);
         $this->record_status = $record_status;
-        $this->work_mark = $this->key . '_put_position';
-        $this->done_work_mark = $this->key . '_put_position';
+        $this->put_position = $this->key . '_put_position';
+        $this->get_position = $this->key . '_get_position';
     }
 
     public function get(){
         if($queue = parent::get()){
             $incr_result = $this->redis_serve->incr($this->get_position);
-            if(!$incr_result) throw new Exception('can not mark get position,please check the redis server');
+            if(!$incr_result) throw new \Exception('can not mark get position,please check the redis server');
         }else{
             return false;
         }
@@ -43,7 +43,7 @@ class RedisMessageQueueStatus extends RedisMessageQueue {
     public function put($message){
         if(parent::put($message)){
             $incr_result = $this->redis_server->incr($this->put_position);
-            if(!$incr_result) throw new Exception('can not mark put position,please check the redis server');
+            if(!$incr_result) throw new \Exception('can not mark put position,please check the redis server');
         }else{
             return false;
         }
@@ -72,6 +72,6 @@ class RedisMessageQueueStatus extends RedisMessageQueue {
     }
 
     public function status_json(){
-        return json_encode($this->status());
+        return \json_encode($this->status());
     }
 } 
