@@ -12,16 +12,16 @@ namespace Zebra\MessageQueue;
 class RedisMessageQueue implements IMessageQueue
 {
 
-    private $redis_server;
+    protected $redis_server;
 
-    private $server;
+    protected $server;
 
-    private $port;
+    protected $port;
 
     /**
      * @var 消息队列标志
      */
-    private $key;
+    protected $key;
 
     /**
      * 构造队列，创建redis链接
@@ -131,7 +131,7 @@ class RedisMessageQueue implements IMessageQueue
      * 检查Redis扩展
      * @throws Exception
      */
-    private function check_environment()
+    protected function check_environment()
     {
         if (!extension_loaded('redis')) {
             throw new Exception('Redis extension not loaded');
