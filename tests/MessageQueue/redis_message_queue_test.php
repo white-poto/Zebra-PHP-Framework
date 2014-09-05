@@ -6,7 +6,7 @@
  * Time: 下午3:15
  */
 
-require '../Zebra.php';
+require '../../Zebra.php';
 
 $server_config = array(
     'IP' => '127.0.0.1',

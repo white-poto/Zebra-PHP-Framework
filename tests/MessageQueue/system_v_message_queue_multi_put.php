@@ -6,7 +6,7 @@
  * Time: 下午9:08
  */
 
-require_once '../Zebra.php';
+require '../../Zebra.php';
 
 $manager = new \Zebra\MultiProcess\ProcessManager();
 

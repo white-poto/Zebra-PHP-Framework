@@ -6,7 +6,7 @@
  * Time: 下午8:49
  */
 
-require '../Zebra.php';;
+require '../../Zebra.php';
 
 $runningTime = new \Zebra\Utils\RunningTime();
 $runningTime->begin();

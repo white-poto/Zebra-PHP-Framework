@@ -5,7 +5,7 @@
  * Date: 14-8-23
  * Time: 上午11:53
  */
-require '../Zebra.php';
+require '../../Zebra.php';
 
 
 

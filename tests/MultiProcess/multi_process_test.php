@@ -6,7 +6,7 @@
  * Time: 上午2:53
  */
 declare(ticks = 1);
-require '../Zebra.php';
+require '../../Zebra.php';
 
 
 

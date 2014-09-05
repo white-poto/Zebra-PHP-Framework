@@ -6,7 +6,7 @@
  * Time: 下午2:35
  */
 
-require_once '../Zebra.php';
+require '../../Zebra.php';
 
 try{
     $messageQueue = new \Zebra\MessageQueue\SystemVMessageQueue(1, dirname(__FILE__));
