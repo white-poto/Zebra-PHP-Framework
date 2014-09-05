@@ -5,11 +5,10 @@
  * Date: 14-8-9
  * Time: 上午2:17
  */
+require '../Zebra.php';
 
-define('ROOT', dirname(dirname(__FILE__)));
-require ROOT . '/core/Daemon.class.php';
 
-$daemon = new Daemon(true, 'nobody', '/tmp/test.log');
+$daemon = new \Zebra\Daemon\Daemon(true, 'nobody', '/tmp/test.log');
 $daemon->daemonize();
 
 while(true){
