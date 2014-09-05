@@ -8,7 +8,7 @@ $Id$
 */
 namespace Zebra\NetWork;
 
-class RollingCurlGroupException extends Exception {}
+class RollingCurlGroupException extends \Exception {}
 
 abstract class RollingCurlGroupRequest extends RollingCurlRequest
 {
@@ -76,7 +76,7 @@ class RollingCurlGroup
                         $this->num_requests++;
                         $this->requests[] = $request;
                 }
-		else if (is_array($request))
+		else if (\is_array($request))
                 {
 			foreach ($request as $req)
 				$this->add($req);
@@ -94,9 +94,9 @@ class RollingCurlGroup
                 if (!($rc instanceof RollingCurl))
                         throw new RollingCurlGroupException("addToRC: RC needs to be of instance RollingCurl");
 
-                while (count($this->requests) > 0)
+                while (\count($this->requests) > 0)
 		{
-			$ret1 = $rc->add(array_shift($this->requests));
+			$ret1 = $rc->add(\array_shift($this->requests));
 			if (!$ret1)
 				$ret = false;
 		}
@@ -127,8 +127,8 @@ class GroupRollingCurl extends RollingCurl {
 		if( $request instanceof RollingCurlGroupRequest)
 			$request->process($output, $info);
 
-		if (is_callable($this->group_callback))
-			call_user_func($this->group_callback, $output, $info, $request);
+		if (\is_callable($this->group_callback))
+			\call_user_func($this->group_callback, $output, $info, $request);
 	}
 
 	function __construct($callback = null)
@@ -148,7 +148,7 @@ class GroupRollingCurl extends RollingCurl {
 
 	public function execute($window_size = null) {
 
-		if (count($this->requests) == 0)
+		if (\count($this->requests) == 0)
 			return false;
 
 		return parent::execute($window_size);

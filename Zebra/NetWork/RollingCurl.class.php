@@ -47,7 +47,7 @@ class RollingCurlRequest {
 /**
  * RollingCurl custom exception
  */
-class RollingCurlException extends Exception {}
+class RollingCurlException extends \Exception {}
 
 /**
  * Class that holds a rolling queue of curl requests.
@@ -226,18 +226,18 @@ class RollingCurl {
      * @return string
      */
     private function single_curl() {
-        $ch = curl_init();		
-        $request = array_shift($this->requests);
+        $ch = \curl_init();
+        $request = \array_shift($this->requests);
         $options = $this->get_options($request);
-        curl_setopt_array($ch,$options);
-        $output = curl_exec($ch);
-        $info = curl_getinfo($ch);
+        \curl_setopt_array($ch,$options);
+        $output = \curl_exec($ch);
+        $info = \curl_getinfo($ch);
 
         // it's not neccesary to set a callback for one-off requests
         if ($this->callback) {
             $callback = $this->callback;
-            if (is_callable($this->callback)){
-                call_user_func($callback, $output, $info, $request);
+            if (\is_callable($this->callback)){
+                \call_user_func($callback, $output, $info, $request);
             }
         }
 		else
@@ -258,23 +258,23 @@ class RollingCurl {
             $this->window_size = $window_size;
 
         // make sure the rolling window isn't greater than the # of urls
-        if (sizeof($this->requests) < $this->window_size)
-            $this->window_size = sizeof($this->requests);
+        if (\sizeof($this->requests) < $this->window_size)
+            $this->window_size = \sizeof($this->requests);
         
         if ($this->window_size < 2) {
             throw new RollingCurlException("Window size must be greater than 1");
         }
 
-        $master = curl_multi_init();        
+        $master = \curl_multi_init();
 
         // start the first batch of requests
         for ($i = 0; $i < $this->window_size; $i++) {
-            $ch = curl_init();
+            $ch = \curl_init();
 
             $options = $this->get_options($this->requests[$i]);
 
-            curl_setopt_array($ch,$options);
-            curl_multi_add_handle($master, $ch);
+            \curl_setopt_array($ch,$options);
+            \curl_multi_add_handle($master, $ch);
 
             // Add to our request Maps
             $key = (string) $ch;
@@ -282,31 +282,31 @@ class RollingCurl {
         }
 
         do {
-            while(($execrun = curl_multi_exec($master, $running)) == CURLM_CALL_MULTI_PERFORM);
+            while(($execrun = \curl_multi_exec($master, $running)) == CURLM_CALL_MULTI_PERFORM);
             if($execrun != CURLM_OK)
                 break;
             // a request was just completed -- find out which one
-            while($done = curl_multi_info_read($master)) {
+            while($done = \curl_multi_info_read($master)) {
 
                 // get the info and content returned on the request
-                $info = curl_getinfo($done['handle']);
-                $output = curl_multi_getcontent($done['handle']);
+                $info = \curl_getinfo($done['handle']);
+                $output = \curl_multi_getcontent($done['handle']);
 
                 // send the return values to the callback function.
                 $callback = $this->callback;
-                if (is_callable($callback)){
+                if (\is_callable($callback)){
 	            $key = (string)$done['handle'];
                     $request = $this->requests[$this->requestMap[$key]];
                     unset($this->requestMap[$key]);
-                    call_user_func($callback, $output, $info, $request);
+                    \call_user_func($callback, $output, $info, $request);
                 }
 
                 // start a new request (it's important to do this before removing the old one)
-                if ($i < sizeof($this->requests) && isset($this->requests[$i]) && $i < count($this->requests)) {
-                    $ch = curl_init();
+                if ($i < \sizeof($this->requests) && isset($this->requests[$i]) && $i < count($this->requests)) {
+                    $ch = \curl_init();
                     $options = $this->get_options($this->requests[$i]);
-                    curl_setopt_array($ch,$options);
-                    curl_multi_add_handle($master, $ch);
+                    \curl_setopt_array($ch,$options);
+                    \curl_multi_add_handle($master, $ch);
 
                     // Add to our request Maps
                     $key = (string) $ch;
@@ -315,16 +315,16 @@ class RollingCurl {
                 }
 
                 // remove the curl handle that just completed
-                curl_multi_remove_handle($master, $done['handle']);
+                \curl_multi_remove_handle($master, $done['handle']);
 
             }
 
 	    // Block for data in / output; error handling is done by curl_multi_exec
 	    if ($running)
-                curl_multi_select($master, $this->timeout);
+                \curl_multi_select($master, $this->timeout);
 
         } while ($running);
-        curl_multi_close($master);
+        \curl_multi_close($master);
         return true;
     }
 
@@ -339,7 +339,7 @@ class RollingCurl {
     private function get_options($request) {
         // options for this entire curl object
         $options = $this->__get('options');
-		if (ini_get('safe_mode') == 'Off' || !ini_get('safe_mode')) {
+		if (\ini_get('safe_mode') == 'Off' || !\ini_get('safe_mode')) {
             $options[CURLOPT_FOLLOWLOCATION] = 1;
 			$options[CURLOPT_MAXREDIRS] = 5;
         }
