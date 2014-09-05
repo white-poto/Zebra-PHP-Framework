@@ -6,17 +6,13 @@
  * Time: 上午11:41
  */
 
-define('SIMPLE_PROCESS_ROOT', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'core'  . DIRECTORY_SEPARATOR);
-require SIMPLE_PROCESS_ROOT .'Process.php';
-require SIMPLE_PROCESS_ROOT . 'ProcessManager.php';
-require SIMPLE_PROCESS_ROOT . 'Semaphore.php';
-require SIMPLE_PROCESS_ROOT . 'SHMCache.php';
+require '../Zebra.php';
 
 
 declare(ticks=1); // This part is critical, be sure to include it
-$manager = new ProcessManager();
-$manager->fork(new Process(function() { sleep(5); }, "My super cool process"));
-$manager->fork(new Process(function() { sleep(7); }, "My super cool2 process"));
+$manager = new\Zebra\MultiProcess\ProcessManager();
+$manager->fork(new \Zebra\MultiProcess\Process(function() { sleep(5); }, "My super cool process"));
+$manager->fork(new \Zebra\MultiProcess\Process(function() { sleep(7); }, "My super cool2 process"));
 do
 {
     foreach($manager->getChildren() as $process)

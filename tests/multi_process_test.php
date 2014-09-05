@@ -6,8 +6,7 @@
  * Time: 上午2:53
  */
 declare(ticks = 1);
-define('ROOT', dirname(dirname(__FILE__)));
-require ROOT . '/core/MultiProcess.class.php';
+require '../Zebra.php';
 
 
 

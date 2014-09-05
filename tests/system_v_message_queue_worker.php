@@ -6,13 +6,10 @@
  * Time: 下午12:13
  */
 
-define('TEST_ROOT', dirname(__FILE__));
-
-require TEST_ROOT . '/../core/IMessageQueue.interface.php';
-require TEST_ROOT . '/../core/SystemVMessageQueue.class.php';
+require_once '../Zebra.php';
 
 try{
-    $messageQueue = new SystemVMessageQueue(1, dirname(__FILE__));
+    $messageQueue = new \Zebra\MessageQueue\SystemVMessageQueue(1, dirname(__FILE__));
     while(true){
         var_dump($messageQueue->get());
         sleep(1);

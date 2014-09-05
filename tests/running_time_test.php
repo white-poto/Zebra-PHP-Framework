@@ -6,9 +6,9 @@
  * Time: 下午8:49
  */
 
-require_once '../Zebra.php';
+require '../Zebra.php';;
 
-$runningTime = new RunningTime();
+$runningTime = new \Zebra\Utils\RunningTime();
 $runningTime->begin();
 sleep(10);
 $runningTime->mark('test');

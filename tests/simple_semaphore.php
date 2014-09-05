@@ -5,20 +5,16 @@
  * Date: 14-8-23
  * Time: 上午11:53
  */
-define('SIMPLE_PROCESS_ROOT', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR);
-require SIMPLE_PROCESS_ROOT .'Process.php';
-require SIMPLE_PROCESS_ROOT . 'ProcessManager.php';
-require SIMPLE_PROCESS_ROOT . 'Semaphore.php';
-require SIMPLE_PROCESS_ROOT . 'SHMCache.php';
+require '../Zebra.php';
 
 
 
 declare(ticks=1); // This part is critical, be sure to include it
-$manager = new ProcessManager();
+$manager = new \Zebra\MultiProcess\ProcessManager();
 $manager->allocateSHMPerChildren(1000); // allocate 1000 bytes for each forked process
 for($i=0;$i<4;$i++)
 {
-    $manager->fork(new Process(function(Process $currentProcess) {
+    $manager->fork(new \Zebra\MultiProcess\Process(function(Process $currentProcess) {
         $currentProcess->getShmSegment()->save('status', 'Processing data...');
         sleep(5);
         $currentProcess->getShmSegment()->save('status', 'Connecting to the satellite...');

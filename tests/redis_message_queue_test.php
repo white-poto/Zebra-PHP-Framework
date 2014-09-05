@@ -6,9 +6,7 @@
  * Time: 下午3:15
  */
 
-define('CUR_DIR', dirname(dirname(__FILE__)) . DIRECTORY_SEPARATOR . 'core');
-require CUR_DIR . '/' . 'IMessageQueue.interface.php';
-require CUR_DIR . '/' . 'RedisMessageQueue.class.php';
+require '../Zebra.php';
 
 $server_config = array(
     'IP' => '127.0.0.1',
@@ -16,7 +14,7 @@ $server_config = array(
 );
 
 try{
-    $queue = new RedisMessageQueue($server_config, 'test');
+    $queue = new \Zebra\MessageQueue\RedisMessageQueue($server_config, 'test');
     $result = $queue->put('++++++++++++++++');
     var_dump($result);
     $size = $queue->size();
