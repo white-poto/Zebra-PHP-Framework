@@ -33,7 +33,7 @@ class RedisMessageQueueStatus extends RedisMessageQueue {
 
     public function get(){
         if($queue = parent::get()){
-            $incr_result = $this->redis_serve->incr($this->get_position);
+            $incr_result = $this->redis_server->incr($this->get_position);
             if(!$incr_result) throw new \Exception('can not mark get position,please check the redis server');
         }else{
             return false;
