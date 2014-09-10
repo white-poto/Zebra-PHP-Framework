@@ -23,16 +23,16 @@ namespace Zebra\Utils;
 function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
 {
     $errorMessage = 'Into ' . __FUNCTION__ . '() at line ' . __LINE__ .
-        "---ERRNO---" . print_r($errno, true) .
-        "---ERRSTR---" . print_r($errstr, true) .
-        "---ERRFILE---" . print_r($errfile, true) .
-        "---ERRLINE---" . print_r($errline, true) .
-        "---ERRCONTEXT---" . print_r($errcontext, true) .
-        "---Backtrace of error_handler()---" . print_r(debug_backtrace(), true);
+        "---ERRNO---" . \print_r($errno, true) .
+        "---ERRSTR---" . \print_r($errstr, true) .
+        "---ERRFILE---" . \print_r($errfile, true) .
+        "---ERRLINE---" . \print_r($errline, true) .
+        "---ERRCONTEXT---" . \print_r($errcontext, true) .
+        "---Backtrace of error_handler()---" . \print_r(\debug_backtrace(), true);
 
-    $errorMessage = str_replace(array("\r\n", "\n"), '', $errorMessage);
-    $log_file_name = ERROR_LOG_PATH . date("Ymd") . "-error.log";
-    file_put_contents($log_file_name, $errorMessage . PHP_EOL, FILE_APPEND);
+    $errorMessage = \str_replace(array("\r\n", "\n"), '', $errorMessage);
+    $log_file_name = ERROR_LOG_PATH . \date("Ymd") . "-error.log";
+    \file_put_contents($log_file_name, $errorMessage . PHP_EOL, FILE_APPEND);
 }
 
 /**
@@ -43,10 +43,10 @@ function errorHandler($errno, $errstr, $errfile, $errline, $errcontext)
  */
 function arrayOrderby()
 {
-    $args = func_get_args();
-    $data = array_shift($args);
+    $args = \func_get_args();
+    $data = \array_shift($args);
     foreach ($args as $n => $field) {
-        if (is_string($field)) {
+        if (\is_string($field)) {
             $tmp = array();
             foreach ($data as $key => $row)
                 $tmp[$key] = $row[$field];
@@ -54,8 +54,8 @@ function arrayOrderby()
         }
     }
     $args[] = & $data;
-    call_user_func_array('array_multisort', $args);
-    return array_pop($args);
+    \call_user_func_array('array_multisort', $args);
+    return \array_pop($args);
 }
 
 
@@ -71,10 +71,10 @@ function getIp($type = 0)
     else if (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) $cip = $_SERVER["HTTP_X_FORWARDED_FOR"];
     else if (!empty($_SERVER["REMOTE_ADDR"])) $cip = $_SERVER["REMOTE_ADDR"];
     else $cip = "";
-    preg_match("/[\d\.]{7,15}/", $cip, $cips);
+    \preg_match("/[\d\.]{7,15}/", $cip, $cips);
     $cip = $cips[0] ? $cips[0] : 'unknown';
     unset($cips);
-    if ($type == 1) $cip = myip2long($cip);
+    if ($type == 1) $cip = \myip2long($cip);
     return $cip;
 }
 
@@ -97,7 +97,7 @@ function getServerIp()
             $serverip = '0.0.0.0';
         }
     } else {
-        $serverip = getenv('SERVER_ADDR');
+        $serverip = \getenv('SERVER_ADDR');
     }
     return $serverip;
 }
@@ -111,10 +111,10 @@ function getServerIp()
  */
 function endsWith($string, $test)
 {
-    $strlen = strlen($string);
-    $testlen = strlen($test);
+    $strlen = \strlen($string);
+    $testlen = \strlen($test);
     if ($testlen > $strlen) return false;
-    return substr_compare($string, $test, $strlen - $testlen, $testlen, true) === 0;
+    return \substr_compare($string, $test, $strlen - $testlen, $testlen, true) === 0;
 }
 
 
@@ -127,7 +127,7 @@ function endsWith($string, $test)
  */
 function getArrayValue(&$array, $key, $defaultValue = null)
 {
-    return array_key_exists($key, $array) ? $array[$key] : $defaultValue;
+    return \array_key_exists($key, $array) ? $array[$key] : $defaultValue;
 }
 
 /**
@@ -140,17 +140,17 @@ function deleteTree($path)
 {
     if (empty($path)) return false;
     debugFile($path, 'deltree.txt');
-    if (!is_dir($path)) {
-        if (is_file($path)) unlink($path);
+    if (!\is_dir($path)) {
+        if (\is_file($path)) unlink($path);
     } else {
-        $dh = opendir($path);
-        while ($file = readdir($dh)) {
+        $dh = \opendir($path);
+        while ($file = \readdir($dh)) {
             if ($file != '.' && $file != '..') {
                 deltree($path . $file);
             }
         }
-        closedir($dh);
-        rmdir($path);
+        \closedir($dh);
+        \rmdir($path);
     }
 
 }
@@ -165,18 +165,18 @@ function deleteTree($path)
 function readDir($dir)
 {
     $ret = array('dirs' => array(), 'files' => array());
-    if ($handle = opendir($dir)) {
-        while (false !== ($file = readdir($handle))) {
+    if ($handle = \opendir($dir)) {
+        while (false !== ($file = \readdir($handle))) {
             if ($file != '.' && $file !== '..') {
                 $cur_path = $dir . DIRECTORY_SEPARATOR . $file;
-                if (is_dir($cur_path)) {
-                    $ret['dirs'][$cur_path] = read_dir($cur_path);
+                if (\is_dir($cur_path)) {
+                    $ret['dirs'][$cur_path] = \read_dir($cur_path);
                 } else {
                     $ret['files'][] = $cur_path;
                 }
             }
         }
-        closedir($handle);
+        \closedir($handle);
     }
     return $ret;
 }
@@ -196,10 +196,10 @@ function getRealSize($size)
     $tb = 1024 * $gb; // Terabyte
 
     if ($size < $kb) return $size . " B";
-    if ($size < $mb) return round($size / $kb, 2) . " KB";
-    if ($size < $gb) return round($size / $mb, 2) . " MB";
-    if ($size < $tb) return round($size / $gb, 2) . " GB";
+    if ($size < $mb) return \round($size / $kb, 2) . " KB";
+    if ($size < $gb) return \round($size / $mb, 2) . " MB";
+    if ($size < $tb) return \round($size / $gb, 2) . " GB";
 
-    return round($size / $tb, 2) . " TB";
+    return \round($size / $tb, 2) . " TB";
 
 }
