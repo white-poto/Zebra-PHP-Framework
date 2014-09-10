@@ -52,7 +52,7 @@ class RedisMessageQueueStatus extends RedisMessageQueue {
     public function status(){
         $status['put_position'] = ($put_position = $this->redis_server->get($this->put_position)) ? $put_position : 0;
         $status['get_position'] = ($get_position = $this->redis_server->get($this->get_position)) ? $get_position : 0;
-        $status['unread_queue'] = intval($status['put_position']) - intval($status['get_position']);
+        $status['unread_queue'] = \intval($status['put_position']) - \intval($status['get_position']);
         $status['queue_name'] = $this->key;
         $status['server'] = $this->server;
         $status['port'] = $this->port;
