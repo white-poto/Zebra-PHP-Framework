@@ -6,7 +6,8 @@
  * Time: 下午2:43
  */
 
-require '../../Zebra.php';
+define('ZEBRA_ROOT', dirname(dirname(dirname(__FILE__))));
+require ZEBRA_ROOT . DIRECTORY_SEPARATOR . 'Zebra.php';
 
 $message = new \Zebra\MessageQueue\RedisMessageQueueStatus();
 for($i=0; $i<100; $i++){

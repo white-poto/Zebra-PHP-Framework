@@ -6,7 +6,8 @@
  * Time: 下午12:13
  */
 
-require '../../Zebra.php';
+define('ZEBRA_ROOT', dirname(dirname(dirname(__FILE__))));
+require ZEBRA_ROOT . DIRECTORY_SEPARATOR . 'Zebra.php';
 
 try{
     $messageQueue = new \Zebra\MessageQueue\SystemVMessageQueue(1, dirname(__FILE__));

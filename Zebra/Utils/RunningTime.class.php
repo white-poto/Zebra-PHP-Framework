@@ -67,7 +67,7 @@ class RunningTime {
                 $report .= $key . ':' . $time . PHP_EOL;
             }else{
                 $taken_time = $time - $pre_time;
-                $report .= $key . ':' . $time . '. taken time:' . $taken_time . PHP_EOL;
+                $report .= $key . ':' . $time . ".\t taken time:" . $taken_time . PHP_EOL;
             }
             $pre_time = $time;
         }

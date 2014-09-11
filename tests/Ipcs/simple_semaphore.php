@@ -5,7 +5,8 @@
  * Date: 14-8-23
  * Time: 上午11:53
  */
-require '../../Zebra.php';
+define('ZEBRA_ROOT', dirname(dirname(dirname(__FILE__))));
+require ZEBRA_ROOT . DIRECTORY_SEPARATOR . 'Zebra.php';
 
 
 

@@ -6,7 +6,8 @@
  * Time: 上午11:41
  */
 
-require '../../Zebra.php';
+define('ZEBRA_ROOT', dirname(dirname(dirname(__FILE__))));
+require ZEBRA_ROOT . DIRECTORY_SEPARATOR . 'Zebra.php';
 
 
 declare(ticks=1); // This part is critical, be sure to include it

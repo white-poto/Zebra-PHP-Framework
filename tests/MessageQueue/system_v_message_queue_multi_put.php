@@ -6,7 +6,8 @@
  * Time: 下午9:08
  */
 
-require '../../Zebra.php';
+define('ZEBRA_ROOT', dirname(dirname(dirname(__FILE__))));
+require ZEBRA_ROOT . DIRECTORY_SEPARATOR . 'Zebra.php';
 
 $manager = new \Zebra\MultiProcess\ProcessManager();
 

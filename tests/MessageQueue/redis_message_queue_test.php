@@ -6,7 +6,8 @@
  * Time: 下午3:15
  */
 
-require '../../Zebra.php';
+define('ZEBRA_ROOT', dirname(dirname(dirname(__FILE__))));
+require ZEBRA_ROOT . DIRECTORY_SEPARATOR . 'Zebra.php';
 
 $server_config = array(
     'IP' => '127.0.0.1',
