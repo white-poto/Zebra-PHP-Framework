@@ -61,7 +61,7 @@ try{
 }
 ```
 以上程序输出：
-int(1)
+int(1)   
 int(1)
 string(16) "++++++++++++++++"
 
@@ -84,7 +84,7 @@ Redis Message Queue
 -------------------
 Message queue name:redis_message_queue
 Put position of queue:100
-Get position of queue:5 
+Get position of queue:5
 Number of unread queue:95
 
 
