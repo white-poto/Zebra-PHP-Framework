@@ -61,9 +61,11 @@ try{
 }
 ```
 以上程序输出：
-int(1)   
+```
+int(1)
 int(1)
 string(16) "++++++++++++++++"
+```
 
 **RedisStatus提供队列信息记录的消息队列使用示例：**
 ```php
@@ -79,6 +81,7 @@ var_dump($work);
 echo $message->status_normal();
 ```
 以上程序输出：
+```
 string(4) "9971"
 Redis Message Queue
 -------------------
@@ -86,6 +89,6 @@ Message queue name:redis_message_queue
 Put position of queue:100
 Get position of queue:5
 Number of unread queue:95
-
+```
 
 
