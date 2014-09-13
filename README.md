@@ -14,4 +14,10 @@ Zebra-PHP-Framework 是一款轻量级的PHP开发框架，目前处于在开发
 + 单例运行模式实现
 + 简单并发框架，抽离进程控制逻辑，方便并发程序编写
 
-[博客地址:www.huyanping.cn](http://www.huyanping.cn/ "程序猿始终不够")
+[博客地址:www.huyanping.cn](http://www.huyanping.cn/ "始终不够")
+
+...php
+<?php
+echo 'test';
+...
+
