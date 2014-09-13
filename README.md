@@ -19,6 +19,7 @@ Zebra-PHP-Framework 是一款轻量级的PHP开发框架，目前处于在开发
 **守护进程实现示例：**
 ```php
 filename:daemon_test.php
+执行方式：php daemon_test.php
 <?php
 $daemon = new \Zebra\Daemon\Daemon(true, 'nobody', '/tmp/test.log');
 $daemon->daemonize();
@@ -33,6 +34,8 @@ while(true){
 
 **单例程序实现示例：**
 ```php
+filename daemon_single_test.php
+php daemon_single_test.php
 <?php
 declare(ticks = 1);//注意：一定要在外部调用文件中首部调用该声明，否则程序会无法监听到信号量
 $single = new DaemonSingle(__FILE__);
@@ -42,6 +45,8 @@ $single->single();
 
 **Redis消息队列使用示例：**
 ```php
+filename:redis_message_queue_test.php
+执行方式：php redis_message_queue_test.php
 <?php
 $server_config = array(
     'IP' => '127.0.0.1',
@@ -69,7 +74,8 @@ string(16) "++++++++++++++++"
 
 **RedisStatus提供队列信息记录的消息队列使用示例：**
 ```php
-<?php
+filename redis_message_queue_status_test.php
+执行方式：php redis_message_queue_status_test.php
 <?php
 $message = new \Zebra\MessageQueue\RedisMessageQueueStatus();
 for($i=0; $i<100; $i++){
