@@ -35,7 +35,7 @@ while(true){
 **单例程序实现示例：**
 ```php
 filename daemon_single_test.php
-php daemon_single_test.php
+执行方式：php daemon_single_test.php
 <?php
 declare(ticks = 1);//注意：一定要在外部调用文件中首部调用该声明，否则程序会无法监听到信号量
 $single = new DaemonSingle(__FILE__);
