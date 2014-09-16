@@ -91,6 +91,17 @@ class RedisMessageQueue implements IMessageQueue
     }
 
     /**
+     * 向队列中插入一串信息
+     * @param $message
+     * @return mixed
+     */
+    public function puts(){
+        $params = func_get_args();
+        $message_array = array_merge(array($this->key), $params);
+        return call_user_func_array(array($this->redis_server, 'lPush'), $message_array);
+    }
+
+    /**
      * 从队列顶部获取一条记录
      * @return mixed
      */

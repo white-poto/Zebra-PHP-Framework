@@ -45,15 +45,30 @@ class RedisMessageQueueStatus extends RedisMessageQueue {
         if(parent::put($message)){
             $incr_result = $this->redis_server->incr($this->put_position);
             if(!$incr_result) throw new \Exception('can not mark put position,please check the redis server');
+            return true;
         }else{
             return false;
         }
     }
 
+    public function puts_status(){
+        $message_array = func_get_args();
+        $result = call_user_func_array(array($this, 'puts'), $message_array);
+        if($result){
+            $this->redis_server->incrBy($this->put_position, count($message_array));
+            return true;
+        }
+        return false;
+    }
+
+    public function size(){
+        return $this->redis_server->lSize($this->key);
+    }
+
     public function status(){
         $status['put_position'] = ($put_position = $this->redis_server->get($this->put_position)) ? $put_position : 0;
         $status['get_position'] = ($get_position = $this->redis_server->get($this->get_position)) ? $get_position : 0;
-        $status['unread_queue'] = \intval($status['put_position']) - \intval($status['get_position']);
+        $status['unread_queue'] = $this->size();
         $status['queue_name'] = $this->key;
         $status['server'] = $this->server;
         $status['port'] = $this->port;
