@@ -4,6 +4,7 @@ Zebra-PHP-Framework
 ---------------
 Zebra-PHP-Framework 是一款轻量级的PHP开发框架，目前处于在开发状态。
 开发计划：
+
 + 常用函数添加
 + 守护进程实现
 + 并发框架
@@ -14,7 +15,13 @@ Zebra-PHP-Framework 是一款轻量级的PHP开发框架，目前处于在开发
 + 单例运行模式实现
 + 简单并发框架，抽离进程控制逻辑，方便并发程序编写
 
-[博客地址:www.huyanping.cn](http://www.huyanping.cn/ "始终不够")
+[博客地址:www.huyanping.cn](http://www.huyanping.cn/ "始终不够") 
+
+**环境依赖**
+
+ + 操作系统：Linux
+ + php版本：>=5.3.x
+ + 扩展依赖：pcntl、shmop、sysvmsg、redis
 
 **守护进程实现示例：**
 ```php
@@ -96,5 +103,4 @@ Put position of queue:100
 Get position of queue:5
 Number of unread queue:95
 ```
-
 
