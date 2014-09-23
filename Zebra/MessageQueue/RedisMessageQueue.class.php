@@ -6,6 +6,7 @@
  * Time: 下午12:10
  *
  * 基于Redis的消息队列封装
+ * 使用短链接注意ini_set('default_socket_timeout', -1);
  */
 namespace Zebra\MessageQueue;
 
