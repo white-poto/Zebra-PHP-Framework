@@ -36,7 +36,7 @@ class C {
 
     private static function initConfig($configFile='config'){
         if(!isset(self::$config[$configFile])) {
-            self::$config[$configFile] = include ROOT . "/config/" . $configFile . '.ini.php';
+            self::$config[$configFile] = include ROOT . "/Config/" . $configFile . '.ini.php';
         }
     }
 }
