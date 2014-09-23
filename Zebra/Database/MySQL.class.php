@@ -45,16 +45,11 @@ class MySQL {
         $this->initConnection($config);
     }
 
-    /**
-     * 销毁函数
-     * @return void
-     */
-    public function __destruct() {
-
-        foreach($this->dataSourceIndex as $index){
-
+    public function close(){
+        if(is_resource(self::$connection[$this->dataSourceIndex])){
+            return mysql_close(self::$connection[$this->dataSourceIndex]);
         }
-
+        return true;
     }
 
     /**
