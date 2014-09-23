@@ -14,6 +14,13 @@ class Logger {
 
     private $log_file;
 
+
+    /**
+     * 设置日志文件，会自动创建上一级目录，仅上一级
+     * 
+     * @param $log_file
+     * @return bool
+     */
     public function set_log_file($log_file){
         $dir = dirname($log_file);
         if(!is_dir($dir)){
