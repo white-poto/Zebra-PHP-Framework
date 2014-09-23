@@ -28,8 +28,7 @@ class Process
     public function run()
     {
         $this->setStarted();
-        $callback = $this->callback;
-        $callback($this);
+        call_user_func($this->callback, $this);
         exit;
     }
 
