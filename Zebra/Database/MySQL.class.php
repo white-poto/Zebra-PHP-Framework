@@ -5,6 +5,7 @@
  * Date: 14-9-23
  * Time: 下午3:50
  *
+ * 
  * $config = array(
  * 'HOST' => 'master.db.adv:3307', //数据库主机
  * 'DB' => 'w37_ad_referer', //数据库名
