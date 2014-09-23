@@ -10,7 +10,6 @@
 
 namespace Zebra\Log;
 
-
 class Logger {
 
     private $log_file;
