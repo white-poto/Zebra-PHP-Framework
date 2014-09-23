@@ -15,6 +15,18 @@ class Logger {
     private $log_file;
 
     public function set_log_file($log_file){
+        $dir = dirname($log_file);
+        if(!is_dir($dir)){
+            if(!mkdir($dir, 0755)){
+                return false;
+            }
+        }
+        if(!is_file($log_file)){
+            touch($log_file);
+        }
+        if(!is_readable($log_file)){
+            return false;
+        }
         $this->log_file = $log_file;
     }
 
