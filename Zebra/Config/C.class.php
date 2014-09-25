@@ -5,6 +5,7 @@
  * Date: 14-9-22
  * Time: 下午5:02
  *
+ * 配置文件类
  * C::get('key');
  * C::get('key', 'config2');
  * C::get('key', 'field', 'config2');
@@ -36,7 +37,12 @@ class C {
 
     private static function initConfig($configFile='config'){
         if(!isset(self::$config[$configFile])) {
-            self::$config[$configFile] = include ROOT . "/Config/" . $configFile . '.ini.php';
+            $realConfigFile = CONFIG_PATH . DS . $configFile . '.ini.php';;
+            if(!file_exists($realConfigFile)) throw new \Exception('config file is not exists');
+            if(!is_readable($realConfigFile)) throw new \Exception('config file is not readable');
+            if(!checkPhpSyntax($realConfigFile)) throw new \Exception('config file contains a syntax error');
+
+            self::$config[$configFile] = include $realConfigFile;
         }
     }
 }

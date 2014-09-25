@@ -203,3 +203,18 @@ function getRealSize($size)
     return \round($size / $tb, 2) . " TB";
 
 }
+
+
+/**
+ * 检查PHP文件语法是否正确
+ * @param $php_file
+ * @return bool
+ */
+function checkPhpSyntax($php_file){
+    $command = PHP_COMMAND_PATH . ' -l ' . $php_file;
+    exec($command, $output, $status);
+    if($status===0){
+        return true;
+    }
+    return false;
+}
