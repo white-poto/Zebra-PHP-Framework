@@ -5,8 +5,7 @@
  * Date: 14-9-10
  * Time: 下午3:05
  */
-
-
+namespace Zebra\ErrorHandle;
 
 function error_handle_to_exception($err_severity, $err_msg, $err_file, $err_line, array $err_context)
 {
