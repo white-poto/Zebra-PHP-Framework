@@ -7,9 +7,9 @@
  */
 
 if(!defined('DS')) define('DS', DIRECTORY_SEPARATOR);
-
 //项目根目录
 if(!defined('ROOT')) define('ROOT', dirname(__FILE__));
+
 //框架目录（Zebar目录位置）
 if(!defined('ZEBRA_PATH')) define('ZEBRA_PATH', ROOT);
 //控制器目录
