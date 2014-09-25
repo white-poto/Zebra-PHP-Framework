@@ -30,8 +30,20 @@ class FileCache implements ICache {
 
     public function init(){
         if(!isset(self::$cache[$this->cache_file]) || empty(self::$cache[$this->cache_file])){
+            if($this->checkPhpSyntax($this->cache_file)){
+                throw new \Exception($this->cache_file . 'has syntax error, please check the cache file.');
+            }
             self::$cache[$this->cache_file] = include $this->cache_file;
         }
+    }
+
+    public function checkPhpSyntax($php_file){
+        $command = PHP_COMMAND_PATH . ' -l ' . $php_file;
+        exec($command, $output, $status);
+        if($status===0){
+            return true;
+        }
+        return false;
     }
 
     /**

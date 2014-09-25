@@ -30,5 +30,7 @@ if(!defined('CLASS_PATH')){
     define('CLASS_PATH', $class_path);
 }
 
+//定义PHP可执行文件位置，用于PHP文件语法检查
+if(!defined('PHP_COMMAND_PATH')) define('PHP_COMMAND_PATH', '/usr/local/webserver/php/bin/php');
 
 
