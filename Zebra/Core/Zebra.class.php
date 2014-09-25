@@ -9,11 +9,23 @@
 namespace Zebra\Core;
 
 
+use Zebra\Mvc\Mvc;
+
 class Zebra
 {
     public function start()
     {
+        //需要预先加载缓存类，autoload会用到
+        if(!class_exists('FileCache')){
+            if(!defined(ZEBRA_ROOT)) throw new \Exception('const ZEBRA_ROOT not defined');
+            require_once ZEBRA_PATH . DS . 'Cache' . DS . 'FileCache.class.php';
+        }
         $this->register_autoload();
+        $this->build_app();
+
+        //执行MVC路由
+        $mvc = new \Zebra\Mvc\Mvc(new \Zebra\Mvc\NormalUrlRewrite());
+        $mvc->execute();
     }
 
     /**
