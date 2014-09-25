@@ -21,21 +21,25 @@ class FileCache implements ICache {
         if(!\is_writable($cache_file)) throw new \Exception('cache file is not writable');
 
         $this->cache_file = $cache_file;
+        $this->init();
     }
 
     public function init(){
-        
+        self::$cache[$this->cache_file] = include $this->cache_file;
     }
 
     /**
      * 保存缓存
      * @return mixed
+     * @throws \Exception empty cache
      */
     public function save(){
         if(empty(self::$cache)){
             throw new \Exception('cache is empty! You can not save a empty cache');
         }
-
+        $content = '<?php return ' . \var_export(self::$cache[$this->cache_file], true);
+        $result = \file_put_contents($this->cache_file, $content);
+        return $result;
     }
 
     /**
@@ -45,7 +49,7 @@ class FileCache implements ICache {
      * @return mixed
      */
     public function set($key, $value){
-
+        self::$cache[$this->cache_file][$key] = $value;
     }
 
     /**
@@ -54,7 +58,7 @@ class FileCache implements ICache {
      * @return mixed
      */
     public function get($key){
-
+        return self::$cache[$this->cache_file][$key];
     }
 
     /**
@@ -62,6 +66,7 @@ class FileCache implements ICache {
      * @return mixed
      */
     public function clear(){
-
+        unset(self::$cache[$this->cache_file]);
+        \unlink($this->cache_file);
     }
 } 

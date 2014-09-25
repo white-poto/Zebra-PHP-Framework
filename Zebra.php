@@ -10,10 +10,44 @@
 
 //加载框架配置文件
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Zebra.config.php';
+//预先加载文件缓存类，__autoload方法会预先用到
+require_once ZEBRA_PATH . DS . 'Cache' . DS . 'FileCache.class.php';
 
+//设置时区
 date_default_timezone_set('PRC');
 ini_set('date.timezone','Asia/Shanghai');
 
+function __autoload($class_name){
+    $cache = new \Zebra\Cache\FileCache(AUTOLOAD_CACHE_FILE);
+    //加载框架类
+    $zebra_class_file = ZEBRA_ROOT . DS . \str_replace('\\', DS, $class_name) . '.class.php';
+    if(file_exists($zebra_class_file) && is_readable($zebra_class_file)){
+        $cache->set($class_name, $zebra_class_file);
+        $cache->save();
+        require_once $zebra_class_file;
+        return ;
+    }
+
+    $class_paths = explode(PATH_SEPARATOR, CLASS_PATH);
+    foreach($class_paths as $class_path){
+        $dirs = scandir($class_path);
+        foreach($dirs as $dir){
+            if($dir=='.' || $dir=='..') continue;
+            if(!is_dir($class_path . DS . $dir)) continue;
+
+            $class_file = $class_path . DS . $dir . DS . $class_name . '.class.php';
+            if(file_exists($class_file)){
+                $cache->set($class_name, $class_file);
+                $cache->save();
+                require_once $class_file;
+                return ;
+            }
+        }
+    }
+
+}
+
+/**
 function __autoload($class_name) {
     $class_file = ROOT . DS . \str_replace('\\', DS, $class_name) . '.class.php';
     if(\file_exists($class_file)){
@@ -23,7 +57,7 @@ function __autoload($class_name) {
 
     return false;
 }
-
+**/
 
 /**
 //全局加载函数
