@@ -18,7 +18,7 @@ class FileCache implements ICache {
         if(!is_dir(CONFIG_PATH)){
             mkdir(CONFIG_PATH, 0755);
         }
-        
+
         if(empty($cache_file)) $cache_file = CACHE_PATH . DS . '__zebar.cahce.php';
         if(!\file_exists($cache_file)) \touch($cache_file);
         if(!\is_readable($cache_file)) throw new \Exception('cache file is not readable');
@@ -29,7 +29,9 @@ class FileCache implements ICache {
     }
 
     public function init(){
-        self::$cache[$this->cache_file] = include $this->cache_file;
+        if(!isset(self::$cache[$this->cache_file]) || empty(self::$cache[$this->cache_file])){
+            self::$cache[$this->cache_file] = include $this->cache_file;
+        }
     }
 
     /**
