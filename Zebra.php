@@ -11,6 +11,21 @@
 //加载框架配置文件
 require dirname(__FILE__) . DIRECTORY_SEPARATOR . 'Zebra.config.php';
 
+date_default_timezone_set('PRC');
+ini_set('date.timezone','Asia/Shanghai');
+
+function __autoload($class_name) {
+    $class_file = ROOT . DS . \str_replace('\\', DS, $class_name) . '.class.php';
+    if(\file_exists($class_file)){
+        require_once $class_file;
+        return true;
+    }
+
+    return false;
+}
+
+
+/**
 //全局加载函数
 function __autoload($class_name){
     //根据命名空间加载
@@ -61,3 +76,4 @@ function save_autoload_cache_file($autoload_cache){
 }
 
 
+**/
