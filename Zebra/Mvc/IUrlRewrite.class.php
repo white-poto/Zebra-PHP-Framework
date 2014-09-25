@@ -14,4 +14,6 @@ interface IUrlRewrite {
     public function get_controller();
     //获取控制器方法
     public function get_action();
+    //编译$_GET参数
+    public function parse_get();
 } 

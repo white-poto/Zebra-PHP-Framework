@@ -218,3 +218,15 @@ function checkPhpSyntax($php_file){
     }
     return false;
 }
+
+
+/**
+ * 递归建立多层目录
+ * @param $path
+ */
+function mkFolder($path){
+    if(!is_readable($path)){
+        MkFolder( dirname($path) );
+        if(!is_file($path)) mkdir($path,0755);
+    }
+}
