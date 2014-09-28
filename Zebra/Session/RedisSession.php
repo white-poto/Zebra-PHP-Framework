@@ -4,21 +4,6 @@
  * User: huyanping
  * Date: 14-9-28
  * Time: 下午3:05
- */
-
-namespace Zebra\Session;
-
-
-/**
- * Store PHP sessions in redis.
- *
- * Depends on {@link http://github.com/nrk/predis/ Predis}
- *
- * @author Mickael Magniez <mickaelmagniez@gmail.com>
- *
- * @version 0.1
- *
- * @license http://www.gnu.org/licenses/lgpl-3.0.html
  *
  * <code>
  * <?php
@@ -35,6 +20,9 @@ namespace Zebra\Session;
  * ?>
  * </code>
  */
+
+namespace Zebra\Session;
+
 class RedisSession {
     /**
      * Default config
