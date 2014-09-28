@@ -34,10 +34,10 @@ class Zebra
     public function build_app()
     {
         //创建控制器目录
-        if(defined(CONTROLLER_PATH) && !\file_exists(CONTROLLER_PATH))  \Zebra\Utils\mkFolder(CONTROLLER_PATH);
-        if(defined(CACHE_PATH) && !\file_exists(CACHE_PATH))  \Zebra\Utils\mkFolder(CACHE_PATH);
-        if(defined(CONFIG_PATH) && !\file_exists(CONFIG_PATH))  \Zebra\Utils\mkFolder(CONFIG_PATH);
-        if(defined(MODEL_PATH) && !\file_exists(MODEL_PATH))  \Zebra\Utils\mkFolder(MODEL_PATH);
+        if(defined(CONTROLLER_PATH) && !\is_dir(CONTROLLER_PATH))  \Zebra\Utils\mkFolder(CONTROLLER_PATH);
+        if(defined(CACHE_PATH) && !\is_dir(CACHE_PATH))  \Zebra\Utils\mkFolder(CACHE_PATH);
+        if(defined(CONFIG_PATH) && !\is_dir(CONFIG_PATH))  \Zebra\Utils\mkFolder(CONFIG_PATH);
+        if(defined(MODEL_PATH) && !\is_dir(MODEL_PATH))  \Zebra\Utils\mkFolder(MODEL_PATH);
     }
 
     /**

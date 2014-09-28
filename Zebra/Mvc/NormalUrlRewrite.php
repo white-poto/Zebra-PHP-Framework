@@ -28,4 +28,8 @@ class NormalUrlRewrite implements IUrlRewrite {
         }
         return $action;
     }
+
+    public function parse_get(){
+        
+    }
 } 

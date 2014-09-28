@@ -100,9 +100,9 @@ class Mvc {
 
         if(!empty($this->callback[self::AFTER_ACTION])){
             if(!method_exists($controller, $this->callback[self::AFTER_ACTION]))
-                throw new \Exception('empty before action' . $this->callback[self::AFTER_ACTION]);
+                throw new \Exception('empty after action' . $this->callback[self::AFTER_ACTION]);
             if(!$this->callBack(self::AFTER_ACTION, array($this->controller, $this->action)))
-                throw new \Exception('before action error');
+                throw new \Exception('after action error');
         }
     }
 

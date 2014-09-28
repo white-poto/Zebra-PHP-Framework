@@ -31,7 +31,7 @@ function error_handle_to_exception($err_severity, $err_msg, $err_file, $err_line
     }
 }
 
-class ErrorException              extends \Exception {}
+class ErrorException                extends \Exception {}
 class WarningException              extends ErrorException {}
 class ParseException                extends ErrorException {}
 class NoticeException               extends ErrorException {}
