@@ -19,6 +19,12 @@ class C {
 
     private function __construct(){}
 
+    /**
+     * 根据配置文件名称、配置key，获取配置值
+     * @param $key
+     * @param string $configFile
+     * @return bool
+     */
     public static function get($key, $configFile='config'){
         self::initConfig($configFile);
         if(!isset(self::$config[$configFile][$key])){
@@ -27,6 +33,13 @@ class C {
         return self::$config[$configFile][$key];
     }
 
+    /**
+     * 根据配置文件名称、配置key、字段名称，获取配置值
+     * @param $key
+     * @param $field
+     * @param string $configFile
+     * @return bool
+     */
     public function getField($key, $field, $configFile='config'){
         self::initConfig($configFile);
         if(!isset(self::$config[$configFile][$key][$field])){
@@ -35,6 +48,32 @@ class C {
         return self::$config[$configFile][$key][$field];
     }
 
+    /**
+     * 根据配置文件名称，配置key，设置配置值，不提供持久化，程序退出后即失效
+     * @param $key
+     * @param $value
+     * @param string $configFile
+     */
+    public function set($key, $value, $configFile='config'){
+        self::$config[$configFile][$key] = $value;
+    }
+
+    /**
+     * 根据配置文件名称、配置key，字段名称设置配置值，不提供持久化，程序退出后即失效
+     * @param $key
+     * @param $field
+     * @param $value
+     * @param string $configFile
+     */
+    public function setField($key, $field, $value, $configFile='config'){
+        self::$config[$configFile][$key][$field] = $value;
+    }
+
+    /**
+     * 单例模式初始化配置文件
+     * @param string $configFile
+     * @throws \Exception
+     */
     private static function initConfig($configFile='config'){
         if(!isset(self::$config[$configFile])) {
             $realConfigFile = CONFIG_PATH . DS . $configFile . '.ini.php';;
